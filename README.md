@@ -7,7 +7,8 @@
 
 ### Project Structure
 /App - root-level scripts and configs  
-    --package.json & package-lock.json ---> stores the script and config information 
+    --package.json & package-lock.json ---> stores the script and config information
+    
 /client - React frontend  
     --/public
         --index.hmtl ---> static file served to browser , dont touch (react is a SPA and our project is injected into the div) 
@@ -16,6 +17,7 @@
         --index.js ---> index.js imports App.js, and renders it into the DOM — specifically into the <div id="root"> in public/index.html.
         --/components ---> all front end components will be created here and routed to the App.js file stored in src
         --/css ---> all front end components style sheets will be stored here
+        
 /server - Node/Express backend
     --index.js ---> main entry point/ our actual server code will go here
     --/routes ---> will contain API REST routes for better organization 
