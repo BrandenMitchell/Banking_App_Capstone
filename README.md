@@ -6,9 +6,22 @@
 ### 
 
 ### Project Structure
-/client - React frontend  
-/server - Node/Express backend  
 /root - root-level scripts and configs  
+    --package.json & package-lock.json ---> stores the script and config information 
+/client - React frontend  
+    --/public
+        --index.hmtl ---> static file served to browser , dont touch (react is a SPA and our project is injected into the div) 
+    --/src
+        --App.js ---> this is the main page essentially of the website, defines your main app UI (components, routes, logic).
+        --index.js ---> index.js imports App.js, and renders it into the DOM — specifically into the <div id="root"> in public/index.html.
+        --/components ---> all front end components will be created here and routed to the App.js file stored in src
+        --/css ---> all front end components style sheets will be stored here
+/server - Node/Express backend
+    --index.js ---> main entry point/ our actual server code will go here
+    --/routes ---> will contain API REST routes for better organization 
+    --/db ---> will contain database information(could be unnecessary)
+
+
 Github branches will be main (this is "prod") --> Dev(we will branch off of here to create features) ---> feat/Im_New_feature (this would be your branch off of Dev that you would work in )
     we can make our changes in our feat/new_feature branch and then do a PR(pull request) to the dev branch and lastly we can merge it all into main("prod")
 ### End Project Structure
