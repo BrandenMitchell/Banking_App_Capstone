@@ -6,7 +6,7 @@
 ### 
 
 ### Project Structure
-/root - root-level scripts and configs  
+/App - root-level scripts and configs  
     --package.json & package-lock.json ---> stores the script and config information 
 /client - React frontend  
     --/public
