@@ -1,0 +1,144 @@
+{
+	"_id": {
+		"$oid": "68c0588c1181f181029ff42e"
+	},
+	"firstName": "John",
+	"lastName": "Doe",
+	"email": "john.doe@example.com",
+	"password": "$2a$12$8GVGOiEVnlUho4jgspAFdO7WVTo93R/ecjRVeDkIkUh4nT/MV432G",
+	"phone": "1234567890",
+	"ssn": "123456789",
+	"isActive": true,
+	"loginAttempts": 0,
+	"accounts": [
+		{
+			"type": "checking",
+			"accountNumber": "1273491008",
+			"balance": 0,
+			"isActive": true,
+			"_id": {
+				"$oid": "68c0588c1181f181029ff42f"
+			},
+			"createdAt": {
+				"$date": "2025-09-09T16:40:44.551Z"
+			}
+		},
+		{
+			"type": "savings",
+			"accountNumber": "8488165700",
+			"balance": 0,
+			"isActive": true,
+			"_id": {
+				"$oid": "68c0588c1181f181029ff430"
+			},
+			"createdAt": {
+				"$date": "2025-09-09T16:40:44.552Z"
+			}
+		}
+	],
+	"createdAt": {
+		"$date": "2025-09-09T16:40:44.556Z"
+	},
+	"updatedAt": {
+		"$date": "2025-09-09T16:54:17.365Z"
+	},
+	"__v": 0,
+	"lastLogin": {
+		"$date": "2025-09-09T16:54:17.362Z"
+	}
+}
+{
+	"_id": {
+		"$oid": "68c0588c1181f181029ff437"
+	},
+	"firstName": "Jane",
+	"lastName": "Smith",
+	"email": "jane.smith@example.com",
+	"password": "$2a$12$slvnwcYzVqCq1wYXUOHjOOziKOGrFzqfPBf6Mxr1uWPv8F4BpRjTC",
+	"phone": "0987654321",
+	"ssn": "987654321",
+	"isActive": true,
+	"loginAttempts": 0,
+	"accounts": [
+		{
+			"type": "checking",
+			"accountNumber": "3223652042",
+			"balance": 0,
+			"isActive": true,
+			"_id": {
+				"$oid": "68c0588c1181f181029ff438"
+			},
+			"createdAt": {
+				"$date": "2025-09-09T16:40:44.98Z"
+			}
+		},
+		{
+			"type": "savings",
+			"accountNumber": "1519819506",
+			"balance": 0,
+			"isActive": true,
+			"_id": {
+				"$oid": "68c0588c1181f181029ff439"
+			},
+			"createdAt": {
+				"$date": "2025-09-09T16:40:44.98Z"
+			}
+		}
+	],
+	"createdAt": {
+		"$date": "2025-09-09T16:40:44.981Z"
+	},
+	"updatedAt": {
+		"$date": "2025-09-09T16:40:44.981Z"
+	},
+	"__v": 0
+}
+{
+	"_id": {
+		"$oid": "68c07911007aebefde7dcd2b"
+	},
+	"firstName": "david",
+	"lastName": "a",
+	"email": "00leedavid@gmail.com",
+	"password": "$2a$12$swG/pVTqWXpKcsVA.QuoGOhu1cSstK1lUPkwZTpAN2xSxk5SSoX8m",
+	"phone": "1111111111",
+	"ssn": "111111111",
+	"isActive": true,
+	"loginAttempts": 0,
+	"accounts": [
+		{
+			"type": "checking",
+			"accountNumber": "1967502875",
+			"balance": 0,
+			"isActive": true,
+			"_id": {
+				"$oid": "68c07911007aebefde7dcd2c"
+			},
+			"createdAt": {
+				"$date": "2025-09-09T18:59:29.007Z"
+			}
+		},
+		{
+			"type": "savings",
+			"accountNumber": "6134731778",
+			"balance": 0,
+			"isActive": true,
+			"_id": {
+				"$oid": "68c07911007aebefde7dcd2d"
+			},
+			"createdAt": {
+				"$date": "2025-09-09T18:59:29.007Z"
+			}
+		}
+	],
+	"createdAt": {
+		"$date": "2025-09-09T18:59:29.013Z"
+	},
+	"updatedAt": {
+		"$date": "2025-09-09T19:50:42.347Z"
+	},
+	"__v": 0,
+	"lastLogin": {
+		"$date": "2025-09-09T19:50:42.346Z"
+	}
+}
