@@ -4,14 +4,14 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f1fdf4; /* very light green background */
+  background-color: #f1fdf4; 
 }
 
 /* Card styling */
 .login-card {
   width: 420px;               
   padding: 2rem 1.75rem;      
-  background: #dcedc8; /* light green */
+  background: #dcedc8; 
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   transition: background 0.3s ease, color 0.3s ease;
@@ -21,7 +21,7 @@
 .login-card h2 {
   font-size: 1.6rem;
   font-weight: 600;
-  color: #4caf50; /* green heading */
+  color: #4caf50; 
   margin-bottom: 1.2rem;
   text-align: center;
 }
@@ -67,9 +67,9 @@
 
 /* Login button */
 .btn-primary {
-  background-color: #2e7d32; /* default green */
+  background-color: #2e7d32; 
   border-color: #2e7d32;
-  color: #ffffff;            /* text white */
+  color: #ffffff;            
   font-size: 1rem;
   font-weight: 600;
   padding: 0.65rem;
@@ -79,9 +79,9 @@
 
 /* Hover effect for the button only */
 .btn-primary:hover {
-  background-color: #1b4d23; /* darker green */
+  background-color: #1b4d23; 
   border-color: #1b4d23;
-  color: #ffffff;            /* keep text white */
+  color: #ffffff;            
 }
 
 /* Links below form */
