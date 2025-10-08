@@ -4,7 +4,7 @@ body {
 .App {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* full viewport height */
+  min-height: 100vh; 
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-size: 4em;
 }
@@ -17,4 +17,11 @@ main {
   flex-grow: 1; 
   padding: 1rem;
   background-color: #1f2255;
+}
+
+/* Make footer copyright text smaller */
+footer p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #ffffffcc;
 }
