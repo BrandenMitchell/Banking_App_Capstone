@@ -1,15 +1,6 @@
-//AUTHENTICATE USER LOGIN
+// authenticate user login
 const express = require('express');
 const router = express.Router();
-
-
-
-
-
-
-
-
-
 
 
 
