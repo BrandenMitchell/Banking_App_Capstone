@@ -1,6 +1,6 @@
 // login.js
 import React, { useState } from "react";
-import "./login.css"; 
+import "../css/login.css"; 
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,7 +13,7 @@ const Login = () => {
     return regex.test(pwd);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validatePassword(password)) {
       setError("Password must be at least 15 characters long and include a number and a special character.");
@@ -21,6 +21,24 @@ const Login = () => {
     }
     setError("");
     console.log("Login submitted:", { email, username, password });
+    try  {
+      const response = await fetch('http://localhost:3001/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password
+        }),
+      });
+      const data = await response.json();
+      console.log('Server Response: ', data);
+    } catch(err) {
+      console.error("Error during login", err);
+    }
+
   };
 
   return (

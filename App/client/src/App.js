@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from "./components/login";
+import RegisterForm  from './components/RegisterForm';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
       <main className="flex-grow-1 d-flex justify-content-center align-items-center">
         {/* Render Login Component */}
         <Login />
+        <RegisterForm />
       </main>
 
       {/* Footer */}
