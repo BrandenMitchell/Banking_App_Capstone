@@ -113,5 +113,5 @@ Show the current status of your working directory — what’s changed, staged, 
     Open a pull request on GitHub to merge your changes into main
 ### End GIT & GitHub
 
-#link to documentation
+link to documentation
 https://drive.google.com/drive/u/0/folders/1ceeeLxlVzSozT3bI85woOUWpoqceLJnL 
