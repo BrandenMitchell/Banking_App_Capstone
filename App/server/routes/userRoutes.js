@@ -1,20 +1,23 @@
+
 const express = require("express");
 const router = express.Router();
+const userController  = require('../controllers/userController.js');
 
 
-router.get('/', (req,res)=>{
-    console.log('gets all users');
-})
+
+router.get('/:id', async (req,res) => {
+  await userController.getUserById(req,res);
+});
 
 
-router.get('/:id', (req,res) => {
-    console.log('Get a user by ID');
+router.post('/', async (req,res)=>{
+    console.log('DEV_MSG: create new user');
+    await userController.registerUser(req,res);
+});
 
-})
-
-
-router.post('/', (req,res)=>{
-    console.log('create new user');
-})
+router.post ('/login', async (req,res) => {
+    console.log('DEV_MSG: User Login');
+    await userController.loginUser(req,res);
+});
 
 module.exports = router;
