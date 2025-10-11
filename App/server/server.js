@@ -5,8 +5,9 @@ const dotenv = require("dotenv");
 const connectDB = require("./db/dbConfig.js");
 const cors = require('cors');
 const app = express();
+dotenv.config();
 
-dotenv.config(); //load in .env variables
+const PORT = process.env.PORT;
 connectDB();
 
 
