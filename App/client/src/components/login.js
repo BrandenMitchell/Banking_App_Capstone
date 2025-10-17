@@ -1,5 +1,6 @@
 // login.js
 import React, { useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import "../css/login.css"; 
 
 const Login = () => {
@@ -7,6 +8,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const validatePassword = (pwd) => {
     const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$/;
@@ -22,7 +24,7 @@ const Login = () => {
     setError("");
     console.log("Login submitted:", { email, username, password });
     try  {
-      const response = await fetch('http://localhost:3001/api/users/login', {
+      const response = await fetch('http://localhost:5000/api/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,16 +37,21 @@ const Login = () => {
       });
       const data = await response.json();
       console.log('Server Response: ', data);
+      if (response.ok) {
+        navigate('/home');
+      } else {
+        setError(data?.error || 'Invalid credentials');
+      }
     } catch(err) {
       console.error("Error during login", err);
+      setError('Network error or server unavailable');
     }
 
   };
 
   return (
-    <div className="login-container">
       <div className="login-card shadow-lg rounded-3">
-        <h2 className="text-center mb-4">Commerce Bank Login</h2>
+        <h2 className="text-center mb-4">Log in</h2>
 
         {error && <div className="alert alert-danger">{error}</div>}
 
@@ -101,13 +108,12 @@ const Login = () => {
           </a>
           <span>
             Don’t have an account?{" "}
-            <a href="/register" className="text-primary fw-bold">
+            <Link to="/register" className="text-primary fw-bold">
               Register
-            </a>
+            </Link>
           </span>
         </div>
       </div>
-    </div>
   );
 };
 

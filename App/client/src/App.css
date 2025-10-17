@@ -9,14 +9,14 @@ body {
   font-size: 4em;
 }
 header, footer {
-  background-color:#2b378b ;
+  background-color: #2e7d32;
   padding: 1rem;
 }
 
 main {
   flex-grow: 1; 
   padding: 1rem;
-  background-color: #1f2255;
+  background-color: #98b182;
 }
 
 /* Make footer copyright text smaller */
