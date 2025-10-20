@@ -83,9 +83,9 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <div className="form-text small-text">
+            {/* <div className="form-text small-text">
               Must be 15+ characters, include a number and special character.
-            </div>
+            </div> */}
           </div>
 
           {/* Submit button */}
