@@ -1,8 +1,9 @@
-// login.js
-import React, { useState } from "react";
-import "../css/login.css"; 
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../context/authContext";
+import '../css/login.css'
 
 const Login = () => {
+  const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -16,29 +17,20 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validatePassword(password)) {
-      setError("Password must be at least 15 characters long and include a number and a special character.");
+      setError(
+        "Password must be at least 15 characters long and include a number and a special character."
+      );
       return;
     }
     setError("");
-    console.log("Login submitted:", { email, username, password });
-    try  {
-      const response = await fetch('http://localhost:3001/api/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username,
-          email,
-          password
-        }),
-      });
-      const data = await response.json();
-      console.log('Server Response: ', data);
-    } catch(err) {
-      console.error("Error during login", err);
-    }
 
+    try {
+      await login({ username, email, password }); // Pass as object to context
+      alert("Logged in successfully!");
+    } catch (err) {
+      console.error(err);
+      setError(err.message || "Login failed");
+    }
   };
 
   return (
