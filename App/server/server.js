@@ -1,12 +1,13 @@
-//ENTRY POINT FOR BACKEND SERVER
-const port = 3001;
+// entry point for backend server
+require("dotenv").config();
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./db/dbConfig.js");
 const cors = require('cors');
 const app = express();
+dotenv.config();
 
-dotenv.config(); //load in .env variables
+const PORT = process.env.PORT;
 connectDB();
 
 
@@ -20,14 +21,12 @@ app.use(express.json());
 app.use('/api/users',userRoutes); //use userRoutes when accessing api/user/
 app.use('/api/auth', authRoutes);
 
+// health route shows DB connection state
+app.get("/health", (req, res) => {
+  const mongoose = require("mongoose");
+  res.json({ ok: mongoose.connection.readyState === 1, dbState: mongoose.connection.readyState });
+});
 
-
-
-
-
-
-
-
-app.listen(port, () =>{
-    console.log("listening on port: ", port);
-})
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

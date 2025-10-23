@@ -2,29 +2,17 @@
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from "./components/login";
-import RegisterForm  from './components/RegisterForm';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import { Routes, Route } from 'react-router-dom';
 
 const App = () => {
   return (
-    <div className="App d-flex flex-column min-vh-100">
-      {/* Header */}
-      <header className="bg-primary text-white text-center py-3">
-        <h1>Banking App</h1>
-      </header>
-
-      {/* Main Content */}
-      <main className="flex-grow-1 d-flex justify-content-center align-items-center">
-        {/* Render Login Component */}
-        <Login />
-        <RegisterForm />
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-dark text-white text-center py-2 mt-auto">
-        <p>&copy; {new Date().getFullYear()} Banking App. All rights reserved.</p>
-      </footer>
-    </div>
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="*" element={<div>404 Not Found</div>} />
+    </Routes>
   );
 };
 
