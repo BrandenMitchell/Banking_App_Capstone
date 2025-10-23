@@ -1,32 +1,46 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import '../css/login.css'
 
 const Login = () => {
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const validatePassword = (pwd) => {
-    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$/;
-    return regex.test(pwd);
-  };
+  const validatePassword = (pwd) => /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$/.test(pwd);
+  const validateEmail = (mail) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validatePassword(password)) {
-      setError(
-        "Password must be at least 15 characters long and include a number and a special character."
-      );
+
+    // Must fill either email or username
+    if (!email && !username) {
+      setError("Please enter either your email or username.");
       return;
     }
+
+    // Validate email if filled
+    if (email && !validateEmail(email)) {
+      setError("Invalid email format.");
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setError("Password must be at least 15 characters long and include a number and a special character.");
+      return;
+    }
+
     setError("");
 
     try {
-      await login({ username, email, password }); // Pass as object to context
+      await login({ username, email, password }); // context handles which one is filled
       alert("Logged in successfully!");
+      navigate("/dashboard"); // redirect to dashboard
     } catch (err) {
       console.error(err);
       setError(err.message || "Login failed");
@@ -49,7 +63,7 @@ const Login = () => {
               className="form-control"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
+              placeholder="you@example.com"
             />
           </div>
 
@@ -61,7 +75,7 @@ const Login = () => {
               className="form-control"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              required
+              placeholder="Username"
             />
           </div>
 
@@ -80,24 +94,8 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Submit button */}
-          <button type="submit" className="btn btn-primary w-100">
-            Login
-          </button>
+          <button type="submit" className="btn btn-primary w-100">Login</button>
         </form>
-
-        {/* Links */}
-        <div className="text-center mt-3 small-text">
-          <a href="/forgot-password" className="d-block mb-2">
-            Forgot Password?
-          </a>
-          <span>
-            Don’t have an account?{" "}
-            <a href="/register" className="text-primary fw-bold">
-              Register
-            </a>
-          </span>
-        </div>
       </div>
     </div>
   );
