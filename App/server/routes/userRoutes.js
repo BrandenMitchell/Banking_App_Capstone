@@ -2,22 +2,13 @@
 const express = require("express");
 const router = express.Router();
 const userController  = require('../controllers/userController.js');
+const authMiddleware = require('../middleware/auth.js');
 
 
 
-router.get('/:id', async (req,res) => {
-  await userController.getUserById(req,res);
-});
+router.get('/profile', authMiddleware, userController.getProfile);
+router.put('/update', authMiddleware, userController.updateUser);
+router.get('/:id', authMiddleware, userController.getUserById);
 
-
-router.post('/', async (req,res)=>{
-    console.log('DEV_MSG: create new user');
-    await userController.registerUser(req,res);
-});
-
-router.post ('/login', async (req,res) => {
-    console.log('DEV_MSG: User Login');
-    await userController.loginUser(req,res);
-});
 
 module.exports = router;

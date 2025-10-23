@@ -14,11 +14,17 @@ connectDB();
 
 //routes here
 const userRoutes = require('./routes/userRoutes');
-const authRoutes = require('./middleware/auth');
+const authRoutes = require('./routes/authRoutes');
 //routes end
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // React app URL
+  credentials: true,               // if you need cookies
+}));
 app.use(express.json());
-app.use('/api/users',userRoutes); //use userRoutes when accessing api/user/
+
+
+
+app.use('/api/users',userRoutes); 
 app.use('/api/auth', authRoutes);
 
 // health route shows DB connection state
