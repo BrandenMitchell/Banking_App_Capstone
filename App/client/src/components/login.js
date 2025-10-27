@@ -37,9 +37,10 @@ const Login = () => {
     setError("");
 
     try {
-      await login({ identifier, password }); // auth context handles backend login
+      // AuthContext handles the backend login
+      await login({ identifier, password });
       alert("Logged in successfully!");
-      navigate("/dashboard");
+      navigate("/dashboard"); // Redirect to dashboard
     } catch (err) {
       console.error(err);
       setError(err.message || "Login failed");
@@ -62,6 +63,7 @@ const Login = () => {
               className="form-control"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
+              placeholder="Enter your username or email"
               required
             />
           </div>
@@ -75,6 +77,7 @@ const Login = () => {
                 className={`form-control ${error ? "is-invalid" : ""}`}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
                 required
               />
               <span

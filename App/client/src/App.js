@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Login from "./components/login";
 import RegisterForm from "./components/RegisterForm";
-import Dashboard from "./components/dashboard";
+import Dashboard from "./components/dashboard"; 
 import Profile from "./components/profile";
 
 const App = () => {
@@ -25,7 +25,7 @@ const App = () => {
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="*" element={<div>404 Not Found</div>} /> {/* from dev */}
+            <Route path="*" element={<div>404 Not Found</div>} />
           </Routes>
         </main>
 
