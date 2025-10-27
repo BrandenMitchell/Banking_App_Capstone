@@ -25,6 +25,7 @@ const App = () => {
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="*" element={<div>404 Not Found</div>} /> {/* from dev */}
           </Routes>
         </main>
 

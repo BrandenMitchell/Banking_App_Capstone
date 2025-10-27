@@ -1,26 +1,31 @@
 // login.js
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { AuthContext } from "../context/authContext";
 import "../css/login.css";
 
 const Login = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [identifier, setIdentifier] = useState(""); // username or email
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const navigate = useNavigate();
-
   const togglePassword = () => setShowPassword(!showPassword);
 
-  const validatePassword = (pwd) => {
-    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$/;
-    return regex.test(pwd);
-  };
+  const validatePassword = (pwd) =>
+    /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$/.test(pwd);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!identifier) {
+      setError("Please enter your username or email.");
+      return;
+    }
 
     if (!validatePassword(password)) {
       setError(
@@ -30,40 +35,14 @@ const Login = () => {
     }
 
     setError("");
-    console.log("Login submitted:", { identifier, password });
 
     try {
-      // Temporary fake login using localStorage
-      const existingUser = JSON.parse(localStorage.getItem("user"));
-      if(!existingUser){
-        localStorage.setItem(
-          "user",
-          JSON.stringify({ fullName: "", email: identifier, phone: "" })
-        );
-      }
-      
-      localStorage.setItem("isLoggedIn", "true");
+      await login({ identifier, password }); // auth context handles backend login
+      alert("Logged in successfully!");
       navigate("/dashboard");
-
-      // FUTURE: Replace with backend login API
-      /*
-      const response = await fetch('http://localhost:3001/api/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identifier, password }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem("user", JSON.stringify({ fullName: identifier, email: identifier }));
-        localStorage.setItem("isLoggedIn", "true");
-        navigate("/dashboard");
-      } else {
-        setError(data.message || "Login failed");
-      }
-      */
     } catch (err) {
-      console.error("Login error:", err);
-      setError("Login failed");
+      console.error(err);
+      setError(err.message || "Login failed");
     }
   };
 
@@ -125,19 +104,6 @@ const Login = () => {
             Login
           </button>
         </form>
-
-        {/* Links */}
-        <div className="text-center mt-3 small-text">
-          <a href="/forgot-password" className="d-block mb-2">
-            Forgot Password?
-          </a>
-          <span>
-            Don’t have an account?{" "}
-            <a href="/register" className="text-primary fw-bold">
-              Register
-            </a>
-          </span>
-        </div>
       </div>
     </div>
   );
