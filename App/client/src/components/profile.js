@@ -55,7 +55,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     logout(); // clear user and token from AuthContext
-    navigate("/");
+    navigate("/login");
   };
 
   const goBack = () => {
