@@ -1,0 +1,62 @@
+.profile-page {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f1fdf4;
+}
+
+.profile-card {
+  width: 600px;
+  background-color: #dcedc8;
+  padding: 3rem;
+  border-radius: 12px;
+}
+
+.profile-row {
+  padding: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.edit-icon {
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.logout-btn {
+  background-color: #e74c3c;
+  color: white;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  filter: brightness(85%);
+}
+
+/* Account section */
+.accounts-section {
+  margin-top: 1.5rem;
+}
+
+.account-list {
+  background: #f5f9f3;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.account-box {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #b2d8b2;
+}
+
+.account-box p {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+  color: #333;
+}

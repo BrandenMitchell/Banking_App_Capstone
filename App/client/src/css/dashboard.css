@@ -1,0 +1,16 @@
+.dashboard-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* Profile icon at top-right */
+.profile-icon {
+  font-size: 2rem;
+  color: #2e7d32;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.profile-icon:hover {
+  color: #1b4d23;
+}
