@@ -1,31 +1,26 @@
 // login.js
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { AuthContext } from "../context/authContext";
 import "../css/login.css";
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
-
   const [identifier, setIdentifier] = useState(""); // username or email
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const navigate = useNavigate();
+
   const togglePassword = () => setShowPassword(!showPassword);
 
-  const validatePassword = (pwd) =>
-    /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$/.test(pwd);
+  const validatePassword = (pwd) => {
+    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$/;
+    return regex.test(pwd);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!identifier) {
-      setError("Please enter your username or email.");
-      return;
-    }
 
     if (!validatePassword(password)) {
       setError(
@@ -35,15 +30,22 @@ const Login = () => {
     }
 
     setError("");
+    console.log("Login submitted:", { identifier, password });
 
     try {
-      // AuthContext handles the backend login
-      await login({ identifier, password });
-      alert("Logged in successfully!");
-      navigate("/dashboard"); // Redirect to dashboard
+      // Temporary fake login using localStorage
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ fullName: identifier, email: identifier, phone: "" })
+      );
+      localStorage.setItem("isLoggedIn", "true");
+      navigate("/dashboard");
+
+      // FUTURE: Replace with backend login API
+      
     } catch (err) {
-      console.error(err);
-      setError(err.message || "Login failed");
+      console.error("Login error:", err);
+      setError("Login failed");
     }
   };
 
@@ -63,7 +65,6 @@ const Login = () => {
               className="form-control"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
-              placeholder="Enter your username or email"
               required
             />
           </div>
@@ -77,7 +78,6 @@ const Login = () => {
                 className={`form-control ${error ? "is-invalid" : ""}`}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
                 required
               />
               <span
@@ -107,9 +107,23 @@ const Login = () => {
             Login
           </button>
         </form>
+
+        {/* Links */}
+        <div className="text-center mt-3 small-text">
+          <a href="/forgot-password" className="d-block mb-2">
+            Forgot Password?
+          </a>
+          <span>
+            Don’t have an account?{" "}
+            <a href="/register" className="text-primary fw-bold">
+              Register
+            </a>
+          </span>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Login;
+
