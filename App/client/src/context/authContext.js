@@ -1,18 +1,55 @@
 // src/context/authContext.js
-import React, { createContext, useState } from "react";
+import React, { useEffect, createContext, useState } from "react";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setLoading(false);
+          return;
+        }
+
+        const res = await fetch("http://localhost:5000/api/auth/verifyToken", {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Token invalid");
+
+        setUser(data.user);
+        setAccessToken(token);
+      } catch (err) {
+        console.error("Invalid token:", err.message);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        setUser(null);
+        setAccessToken(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+
+
+
 
   // Login expects an object with { username, email, password }
-  const login = async ({ username, email, password }) => {
+  const login = async ({ identifier, password }) => {
     const res = await fetch("http://localhost:3001/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify({ identifier, password }),
     });
 
     const data = await res.json();
@@ -49,7 +86,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, accessToken, login, logout, refreshAccessToken }}
+      value={{ user, accessToken, login, logout, refreshAccessToken, loading }}
     >
       {children}
     </AuthContext.Provider>

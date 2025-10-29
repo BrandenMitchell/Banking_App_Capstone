@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/authContext";
+import "../css/login.css";
 
 export default function Register() {
-  const { login } = useContext(AuthContext); // auto-login after registration
+  const { login } = useContext(AuthContext);
 
   const [emailInput, setEmailInput] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
@@ -12,7 +13,6 @@ export default function Register() {
   const [cityInput, setCityInput] = useState("");
   const [stateInput, setStateInput] = useState("");
   const [zipInput, setZipInput] = useState("");
-
   const [passwordInput, setPasswordInput] = useState("");
   const [rePasswordInput, setRePasswordInput] = useState("");
 
@@ -63,7 +63,6 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (
       passwordError ||
       confirmPasswordError ||
@@ -115,14 +114,12 @@ export default function Register() {
       setIsSuccess(true);
       setMessage("Registration successful! Logging you in...");
 
-      // Automatically log the user in after successful registration
       await login({
         username: formData.username,
         email: formData.email,
         password: formData.password,
       });
 
-      // Reset form
       setEmailInput("");
       setUsernameInput("");
       setFullNameInput("");
@@ -156,185 +153,178 @@ export default function Register() {
 
   return (
     <div className="login-container">
-      <div className="login-card shadow-lg rounded-3">
-        <h2 className="text-center mb-4">Commerce Bank Register</h2>
-        <div className="space-y-4">
-          <form onSubmit={handleSubmit}>
-            {/* Full Name */}
-            <label className="block text-gray-700 mb-3">Full Name</label>
+      <div className={`login-card ${shake ? "animate-shake" : ""}`}>
+        <h2>Commerce Bank Register</h2>
+
+        <form onSubmit={handleSubmit}>
+          <label className="small-label mb-2">Full Name</label>
+          <input
+            type="text"
+            className="form-control mb-2"
+            value={fullNameInput}
+            onChange={(e) => setFullNameInput(e.target.value)}
+            placeholder="Full name"
+            required
+          />
+
+          <label className="small-label mb-2">Username</label>
+          <input
+            type="text"
+            className="form-control mb-2"
+            value={usernameInput}
+            onChange={(e) => setUsernameInput(e.target.value)}
+            placeholder="Username"
+            required
+          />
+
+          <label className="small-label mb-2">Email</label>
+          <input
+            type="email"
+            className="form-control mb-2"
+            value={emailInput}
+            onChange={(e) => setEmailInput(e.target.value)}
+            placeholder="Email"
+            required
+          />
+
+          <label className="small-label mb-2">Phone Number</label>
+          <input
+            type="text"
+            className="form-control mb-2"
+            value={phoneNumberInput}
+            onChange={(e) => setPhoneNumberInput(e.target.value)}
+            placeholder="(123) 456-7890"
+            required
+          />
+
+          <h4 className="small-label mt-3 mb-2">Address Information</h4>
+
+          <label className="small-label mb-2">Street</label>
+          <input
+            type="text"
+            className="form-control mb-2"
+            value={streetInput}
+            onChange={(e) => setStreetInput(e.target.value)}
+            placeholder="123 Main St"
+            required
+          />
+
+          <label className="small-label mb-2">City</label>
+          <input
+            type="text"
+            className="form-control mb-2"
+            value={cityInput}
+            onChange={(e) => setCityInput(e.target.value)}
+            placeholder="City"
+            required
+          />
+
+          <label className="small-label mb-2">State</label>
+          <input
+            type="text"
+            className="form-control mb-2"
+            value={stateInput}
+            onChange={(e) => setStateInput(e.target.value)}
+            placeholder="State"
+            required
+          />
+
+          <label className="small-label mb-2">ZIP Code</label>
+          <input
+            type="text"
+            className="form-control mb-2"
+            value={zipInput}
+            onChange={(e) => setZipInput(e.target.value)}
+            placeholder="ZIP"
+            required
+          />
+
+          <label className="small-label mb-2">Password</label>
+          <div className="password-input-wrapper mb-2" style={{ position: "relative" }}>
             <input
-              type="text"
-              value={fullNameInput}
-              onChange={(e) => setFullNameInput(e.target.value)}
-              placeholder="Full name"
+              type={showPassword ? "text" : "password"}
               className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
+              value={passwordInput}
+              onChange={handlePasswordChange}
+              placeholder="Enter password"
               required
             />
-
-            {/* Username */}
-            <label className="block text-gray-700 mb-3">Username</label>
-            <input
-              type="text"
-              value={usernameInput}
-              onChange={(e) => setUsernameInput(e.target.value)}
-              placeholder="Username"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
-
-            {/* Email */}
-            <label className="block text-gray-700 mb-3">Email</label>
-            <input
-              type="email"
-              value={emailInput}
-              onChange={(e) => setEmailInput(e.target.value)}
-              placeholder="Email"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
-
-            {/* Phone */}
-            <label className="block text-gray-700 mb-3">Phone Number</label>
-            <input
-              type="text"
-              value={phoneNumberInput}
-              onChange={(e) => setPhoneNumberInput(e.target.value)}
-              placeholder="(123) 456-7890"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
-
-            {/* Address */}
-            <h4 className="text-gray-700 mt-4 mb-2">Address Information</h4>
-
-            <label className="block text-gray-700 mb-3">Street</label>
-            <input
-              type="text"
-              value={streetInput}
-              onChange={(e) => setStreetInput(e.target.value)}
-              placeholder="123 Main St"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
-
-            <label className="block text-gray-700 mb-3">City</label>
-            <input
-              type="text"
-              value={cityInput}
-              onChange={(e) => setCityInput(e.target.value)}
-              placeholder="City"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
-
-            <label className="block text-gray-700 mb-3">State</label>
-            <input
-              type="text"
-              value={stateInput}
-              onChange={(e) => setStateInput(e.target.value)}
-              placeholder="State"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
-
-            <label className="block text-gray-700 mb-3">ZIP Code</label>
-            <input
-              type="text"
-              value={zipInput}
-              onChange={(e) => setZipInput(e.target.value)}
-              placeholder="ZIP"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
-
-            {/* Password */}
-            <label className="block text-gray-700 mb-3">Password</label>
-            <div className={`relative ${shake ? "animate-shake" : ""}`}>
-              <input
-                type={showPassword ? "text" : "password"}
-                value={passwordInput}
-                onChange={handlePasswordChange}
-                placeholder="Enter password"
-                className={`w-full p-2 border rounded mb-1 ${
-                  passwordError
-                    ? "border-red-500"
-                    : passwordInput
-                    ? "border-green-500"
-                    : "border-gray-300"
-                }`}
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-2 top-2 text-sm text-gray-600"
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </div>
-
-            {passwordError && (
-              <p className="text-red-500 font-bold">{passwordError}</p>
-            )}
-
-            {/* Confirm Password */}
-            <label className="block text-gray-700 mb-3">Retype Password</label>
-            <div className={`relative ${shake ? "animate-shake" : ""}`}>
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                value={rePasswordInput}
-                onChange={handleConfirmPasswordChange}
-                placeholder="Retype password"
-                className={`w-full p-2 border rounded mb-1 ${
-                  confirmPasswordError
-                    ? "border-red-500"
-                    : rePasswordInput
-                    ? "border-green-500"
-                    : "border-gray-300"
-                }`}
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-2 top-2 text-sm text-gray-600"
-              >
-                {showConfirmPassword ? "Hide" : "Show"}
-              </button>
-            </div>
-
-            {confirmPasswordError && (
-              <p className="text-red-500 font-bold">{confirmPasswordError}</p>
-            )}
-            {!confirmPasswordError && rePasswordInput && (
-              <p className="text-green-500">Passwords matched</p>
-            )}
-
             <button
-              type="submit"
-              className="btn btn-primary w-100 mt-3"
-              disabled={!isFormValid}
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "6px",
+                fontSize: "0.8rem",
+                background: "none",
+                border: "none",
+                color: "#2e7d32",
+                cursor: "pointer",
+              }}
             >
-              Register
+              {showPassword ? "Hide" : "Show"}
             </button>
-          </form>
+          </div>
+          {passwordError && <p className="small-text text-red-600">{passwordError}</p>}
+
+          <label className="small-label mb-2">Retype Password</label>
+          <div className="password-input-wrapper mb-2" style={{ position: "relative" }}>
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              className="form-control"
+              value={rePasswordInput}
+              onChange={handleConfirmPasswordChange}
+              placeholder="Retype password"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "6px",
+                fontSize: "0.8rem",
+                background: "none",
+                border: "none",
+                color: "#2e7d32",
+                cursor: "pointer",
+              }}
+            >
+              {showConfirmPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+
+          {confirmPasswordError && <p className="small-text text-red-600">{confirmPasswordError}</p>}
+          {!confirmPasswordError && rePasswordInput && (
+            <p className="small-text text-green-600">Passwords matched</p>
+          )}
+
+          <button
+            type="submit"
+            className="btn-primary w-100 mt-3"
+            disabled={!isFormValid}
+          >
+            Register
+          </button>
 
           {message && (
-            <p
-              className="text-center mt-3"
-              style={{ color: isSuccess ? "green" : "red", fontWeight: "500" }}
+            <div
+              className="alert text-center mt-3"
+              style={{ color: isSuccess ? "#2e7d32" : "#c62828" }}
             >
               {message}
-            </p>
+            </div>
           )}
+        </form>
+        <div className="text-center mt-3 small-text">
+          <span>
+            Don’t have an account?{" "}
+            <a href="/" className="text-primary fw-bold">
+              Back to Login
+            </a>
+          </span>
         </div>
       </div>
     </div>

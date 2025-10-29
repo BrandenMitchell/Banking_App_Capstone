@@ -5,13 +5,12 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Login from "./components/login";
-import RegisterForm from "./components/RegisterForm";
-import Dashboard from "./components/dashboard"; 
+import Register from "./components/register";
+import Dashboard from "./components/Dashboard"; 
 import Profile from "./components/profile";
 
 const App = () => {
   return (
-    <Router>
       <div className="App d-flex flex-column min-vh-100">
         {/* Header */}
         <header className="bg-primary text-white text-center py-3">
@@ -22,8 +21,8 @@ const App = () => {
         <main className="flex-grow-1 d-flex justify-content-center align-items-center">
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/register" element={<RegisterForm />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/dashboard" element= {<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<div>404 Not Found</div>} />
           </Routes>
@@ -34,7 +33,6 @@ const App = () => {
           <p>&copy; {new Date().getFullYear()} Banking App. All rights reserved.</p>
         </footer>
       </div>
-    </Router>
   );
 };
 

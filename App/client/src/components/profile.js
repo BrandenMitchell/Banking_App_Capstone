@@ -1,11 +1,12 @@
-// profile.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../css/profile.css";
+import { AuthContext } from "../context/authContext";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { user: authUser, logout, loading } = useContext(AuthContext);
 
   // State to hold user profile data
   const [user, setUser] = useState({
@@ -25,19 +26,20 @@ const Profile = () => {
   const [showAccounts, setShowAccounts] = useState(false);
   const [editField, setEditField] = useState("");
 
+  // Redirect if not logged in, set profile data if logged in
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) setUser(storedUser);
-
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn !== "true") {
-      navigate("/");
+    if (!loading) {
+      if (!authUser) {
+        navigate("/"); // redirect to login
+      } else {
+        setUser({
+          fullName: authUser.fullName || "",
+          email: authUser.email || "",
+          phone: authUser.phoneNumber || "",
+        });
+      }
     }
-  }, [navigate]);
-
-  useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(user));
-  }, [user]);
+  }, [authUser, loading, navigate]);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -49,11 +51,10 @@ const Profile = () => {
 
   const handleSave = () => {
     setEditField("");
-    localStorage.setItem("user", JSON.stringify(user));
   };
 
   const handleLogout = () => {
-    localStorage.setItem("isLoggedIn", "false");
+    logout(); // clear user and token from AuthContext
     navigate("/");
   };
 
@@ -61,33 +62,23 @@ const Profile = () => {
     navigate("/dashboard");
   };
 
+  if (loading) return <p className="text-center mt-5">Loading...</p>;
+
   return (
     <div className="container py-5 profile-page">
       <div className="card shadow-lg rounded-3 p-4 profile-card">
-        {/* Back Button */}
         <button className="btn btn-secondary mb-3" onClick={goBack}>
           &larr; Back to Dashboard
         </button>
 
-        {/* Profile Heading */}
-        <h2 className="text-center mb-4 text-success fw-bold fs-3">
-          My Profile
-        </h2>
+        <h2 className="text-center mb-4 text-success fw-bold fs-3">My Profile</h2>
 
-        {/* Profile Info */}
         <div className="mb-4">
           {["fullName", "email", "phone"].map((field) => (
-            <div
-              key={field}
-              className="d-flex justify-content-between align-items-center mb-3 profile-row"
-            >
+            <div key={field} className="d-flex justify-content-between align-items-center mb-3 profile-row">
               <div className="flex-grow-1">
                 <strong className="me-2 text-muted">
-                  {field === "fullName"
-                    ? "Full Name:"
-                    : field === "email"
-                    ? "Email:"
-                    : "Phone:"}
+                  {field === "fullName" ? "Full Name:" : field === "email" ? "Email:" : "Phone:"}
                 </strong>
                 {editField === field ? (
                   <input
@@ -101,10 +92,7 @@ const Profile = () => {
                   <span>{user[field] || "—"}</span>
                 )}
               </div>
-              <FaPencilAlt
-                className="text-success ms-3 edit-icon"
-                onClick={() => handleEditClick(field)}
-              />
+              <FaPencilAlt className="text-success ms-3 edit-icon" onClick={() => handleEditClick(field)} />
             </div>
           ))}
 
@@ -117,8 +105,8 @@ const Profile = () => {
           )}
         </div>
 
-        {/* Account Section */}
         <hr />
+
         <div className="accounts-section">
           <button
             className="btn btn-outline-success w-100 mb-3"
@@ -143,10 +131,7 @@ const Profile = () => {
 
         <hr />
 
-        {/* Settings Section */}
-        <h4 className="text-success fw-bold fs-5 mb-3 text-center">
-          Settings
-        </h4>
+        <h4 className="text-success fw-bold fs-5 mb-3 text-center">Settings</h4>
 
         <div className="d-flex justify-content-center mt-3">
           <button className="btn logout-btn px-4 py-2" onClick={handleLogout}>

@@ -107,7 +107,19 @@ const Login = () => {
             Login
           </button>
         </form>
+        <div className="text-center mt-3 small-text">
+          <a href="/forgot-password" className="d-block mb-2">
+            Forgot Password?
+          </a>
+          <span>
+            Don’t have an account?{" "}
+            <a href="/register" className="text-primary fw-bold">
+              Register
+            </a>
+          </span>
+        </div>
       </div>
+      
     </div>
   );
 };
