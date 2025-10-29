@@ -33,7 +33,7 @@ const Profile = () => {
         navigate("/"); // redirect to login
       } else {
         setUser({
-          fullName: authUser.fullName || "",
+          fullName: authUser.username || "",
           email: authUser.email || "",
           phone: authUser.phoneNumber || "",
         });
@@ -78,7 +78,7 @@ const Profile = () => {
             <div key={field} className="d-flex justify-content-between align-items-center mb-3 profile-row">
               <div className="flex-grow-1">
                 <strong className="me-2 text-muted">
-                  {field === "fullName" ? "Full Name:" : field === "email" ? "Email:" : "Phone:"}
+                  {field === "fullName" ? "User Name:" : field === "email" ? "Email:" : "Phone:"}
                 </strong>
                 {editField === field ? (
                   <input

@@ -62,7 +62,7 @@ const Dashboard = () => {
           navigate("/"); // redirect to login
         } else {
           setUser({
-            fullName: authUser.fullName || "",
+            fullName: authUser.username || "",
             email: authUser.email || "",
             phone: authUser.phoneNumber || "",
           });
@@ -108,7 +108,7 @@ if (loading) {
 
       <main className="main-content">
         <header className="dashboard-header">
-          <h1 className="dashboard-title">Dashboard Overview</h1>
+          <h1 className="dashboard-title">{user.fullName}'s Dashboard Overview</h1>
           <div className="banner-line"></div>
         </header>
 
