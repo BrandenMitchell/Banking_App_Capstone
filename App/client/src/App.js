@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Login from "./components/login";
 import Register from "./components/register";
-import Dashboard from "./components/Dashboard"; 
+import Dashboard from "./components/dashboard"; 
 import Profile from "./components/profile";
 
 const App = () => {

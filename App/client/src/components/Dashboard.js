@@ -3,42 +3,199 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import { AuthContext } from "../context/authContext";
 
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+} from "recharts";
+import "../css/dashboard.css";
+import "../css/sidebar.css";
+
+
+
 const Dashboard = () => {
-  // State to hold money values
-  const [accounts, setAccounts] = useState({
-    checking: 0,
-    savings: 0,
-    creditCard: 0,
-    investments: 0,
-  });
-
-  // Helper to format as USD currency
-  const formatCurrency = (value) =>
-    value.toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
+  const navigate = useNavigate();
+  const {user: authUser, logout, loading} = useContext(AuthContext);
+  const [user, setUser] = useState({
+      fullName: "",
+      email: "",
+      phone: "",
     });
+  
+  const [selectedAccount, setSelectedAccount] = useState(1);
+  const [activePanel, setActivePanel] = useState("overview");
 
+  const accounts = [
+    { id: 1, name: "Checking", balance: 5460.75, type: "Active" },
+    { id: 2, name: "Savings", balance: 12890.25, type: "Active" },
+    { id: 3, name: "Credit Card", balance: 2540.0, type: "Active" },
+    { id: 4, name: "Investments", balance: 8000.0, type: "Closed" },
+  ];
+
+  const transactions = {
+    1: [
+      { id: 1, date: "2025-10-29", description: "Deposit", amount: 2000 },
+      { id: 2, date: "2025-10-28", description: "Withdrawal", amount: -100 },
+      { id: 3, date: "2025-10-27", description: "Deposit", amount: 300 },
+      { id: 4, date: "2025-10-26", description: "Deposit", amount: 500 },
+    ],
+    2: [
+      { id: 1, date: "2025-10-27", description: "Deposit", amount: 5000 },
+      { id: 2, date: "2025-10-26", description: "Withdrawal", amount: -200 },
+    ],
+    3: [{ id: 1, date: "2025-10-25", description: "Payment", amount: -540 }],
+  };
+
+  const chartData = transactions[selectedAccount]?.map((tx) => ({
+    date: tx.date,
+    balance:
+      accounts.find((acc) => acc.id === selectedAccount)?.balance +
+      tx.amount * (Math.random() > 0.5 ? 1 : -1),
+  }));
+  useEffect(() => {
+      if (!loading) {
+        if (!authUser) {
+          navigate("/"); // redirect to login
+        } else {
+          setUser({
+            fullName: authUser.fullName || "",
+            email: authUser.email || "",
+            phone: authUser.phoneNumber || "",
+          });
+        }
+      }
+    }, [authUser, loading, navigate]);
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+if (loading) {
   return (
-    <div className="login-container">
-      <div className="login-card shadow-lg rounded-3 p-4">
-        <h2 className="text-center mb-4">Commerce Bank Dashboard</h2>
+    <div style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      height: "100vh",
+      backgroundColor: "#344e41",
+      color: "#dad7cd",
+      fontFamily: "Inter, sans-serif",
+      fontSize: "18px",
+      letterSpacing: "0.5px"
+    }}>
+      Loading...
+    </div>
+  );
+}
+  return (
+    <div className="dashboard-container">
+      <Sidebar
+        onSelectOverview={() => setActivePanel("overview")}
+        onNavigateAccounts={() => {
+          setActivePanel("accounts");
+          navigate("/accounts");
+        }}
+        onNavigateProfile={() => {
+          setActivePanel("profile");
+          navigate("/profile");
+        }}
+        onLogout={handleLogout}
+        active={activePanel}
+      />
 
-        <div className="space-y-4">
-          <div className="account-field">
-            <strong>Checking:</strong> {formatCurrency(accounts.checking)}
+      <main className="main-content">
+        <header className="dashboard-header">
+          <h1 className="dashboard-title">Dashboard Overview</h1>
+          <div className="banner-line"></div>
+        </header>
+
+        {/* Accounts Section */}
+        <section className="accounts-section">
+          <h3 className="section-title">Active Accounts</h3>
+          <div className="accounts-list">
+            {accounts
+              .filter((acc) => acc.type === "Active")
+              .slice(0, 3)
+              .map((acc) => (
+                <div
+                  key={acc.id}
+                  className={`account-card ${
+                    selectedAccount === acc.id ? "selected" : ""
+                  }`}
+                  onClick={() => setSelectedAccount(acc.id)}
+                >
+                  <p className="account-name">{acc.name}</p>
+                  <p className="account-balance">
+                    ${acc.balance.toLocaleString()}
+                  </p>
+                </div>
+              ))}
           </div>
-          <div className="account-field">
-            <strong>Savings:</strong> {formatCurrency(accounts.savings)}
-          </div>
-          <div className="account-field">
-            <strong>Credit Card:</strong> {formatCurrency(accounts.creditCard)}
-          </div>
-          <div className="account-field">
-            <strong>Investments:</strong> {formatCurrency(accounts.investments)}
-          </div>
-        </div>
-      </div>
+        </section>
+
+        {/* Chart Section */}
+        <section className="chart-section">
+          <h3 className="section-title">Account Balance Trend</h3>
+          {chartData && chartData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={250}>
+              <LineChart data={chartData}>
+                <CartesianGrid stroke="rgba(255,255,255,0.1)" />
+                <XAxis dataKey="date" stroke="#dad7cd" />
+                <YAxis stroke="#dad7cd" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#3a5a40",
+                    border: "1px solid #588157",
+                    color: "#dad7cd",
+                  }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="balance"
+                  stroke="#14213D"
+                  strokeWidth={3}
+                  dot={{ fill: "#023047", r: 5 }}
+                  activeDot={{ r: 8 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : (
+            <p>No chart data available.</p>
+          )}
+        </section>
+
+        {/* Transactions Section */}
+        <section className="transactions-section">
+          <h3 className="section-title">Recent Transactions</h3>
+          {transactions[selectedAccount] ? (
+            <table className="transactions-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {transactions[selectedAccount].map((tx) => (
+                  <tr key={tx.id}>
+                    <td>{tx.date}</td>
+                    <td>{tx.description}</td>
+                    <td className={tx.amount < 0 ? "negative" : "positive"}>
+                      ${Math.abs(tx.amount).toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No transactions available.</p>
+          )}
+        </section>
+      </main>
     </div>
   );
 };
