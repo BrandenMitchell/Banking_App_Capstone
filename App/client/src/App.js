@@ -13,8 +13,8 @@ const App = () => {
   return (
       <div className="App d-flex flex-column min-vh-100">
         {/* Header */}
-        <header className="bg-primary text-white text-center py-3">
-          <h1>Banking App</h1>
+        <header className="  text-center py-3">
+          <h1>Neptune Banking </h1>
         </header>
 
         {/* Main Content */}
