@@ -1,9 +1,11 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/authContext";
 import "../css/login.css";
+import { useNavigate } from "react-router-dom"; // for redirect
 
 export default function Register() {
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [emailInput, setEmailInput] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
@@ -104,6 +106,7 @@ export default function Register() {
       });
 
       const data = await res.json();
+      console.log("Registration response:", data);
 
       if (!res.ok) {
         setMessage(data.message || "Registration failed");
@@ -114,22 +117,33 @@ export default function Register() {
       setIsSuccess(true);
       setMessage("Registration successful! Logging you in...");
 
-      await login({
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-      });
+      try {
+        await login({
+          identifier: usernameInput || emailInput,
+          password: passwordInput,
+        });
 
-      setEmailInput("");
-      setUsernameInput("");
-      setFullNameInput("");
-      setPhoneNumberInput("");
-      setStreetInput("");
-      setCityInput("");
-      setStateInput("");
-      setZipInput("");
-      setPasswordInput("");
-      setRePasswordInput("");
+        // redirect to dashboard
+        navigate("/dashboard");
+
+        // clear form fields
+        setEmailInput("");
+        setUsernameInput("");
+        setFullNameInput("");
+        setPhoneNumberInput("");
+        setStreetInput("");
+        setCityInput("");
+        setStateInput("");
+        setZipInput("");
+        setPasswordInput("");
+        setRePasswordInput("");
+      } catch (err) {
+        console.error("Auto-login failed:", err.message);
+        setMessage(
+          "Registration succeeded, but login failed. Please login manually."
+        );
+        setIsSuccess(false);
+      }
     } catch (err) {
       console.error("Registration error:", err);
       setMessage("Network error or server unavailable");
@@ -240,7 +254,10 @@ export default function Register() {
           />
 
           <label className="small-label mb-2">Password</label>
-          <div className="password-input-wrapper mb-2" style={{ position: "relative" }}>
+          <div
+            className="password-input-wrapper mb-2"
+            style={{ position: "relative" }}
+          >
             <input
               type={showPassword ? "text" : "password"}
               className="form-control"
@@ -266,10 +283,15 @@ export default function Register() {
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
-          {passwordError && <p className="small-text text-red-600">{passwordError}</p>}
+          {passwordError && (
+            <p className="small-text text-red-600">{passwordError}</p>
+          )}
 
           <label className="small-label mb-2">Retype Password</label>
-          <div className="password-input-wrapper mb-2" style={{ position: "relative" }}>
+          <div
+            className="password-input-wrapper mb-2"
+            style={{ position: "relative" }}
+          >
             <input
               type={showConfirmPassword ? "text" : "password"}
               className="form-control"
@@ -296,7 +318,9 @@ export default function Register() {
             </button>
           </div>
 
-          {confirmPasswordError && <p className="small-text text-red-600">{confirmPasswordError}</p>}
+          {confirmPasswordError && (
+            <p className="small-text text-red-600">{confirmPasswordError}</p>
+          )}
           {!confirmPasswordError && rePasswordInput && (
             <p className="small-text text-green-600">Passwords matched</p>
           )}
@@ -320,7 +344,7 @@ export default function Register() {
         </form>
         <div className="text-center mt-3 small-text">
           <span>
-            Don’t have an account?{" "}
+            Have an account?{" "}
             <a href="/" className="text-primary fw-bold">
               Back to Login
             </a>
