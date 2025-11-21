@@ -7,10 +7,10 @@
   min-height: 100vh;
 }
 
-/* Expanded width for new horizontal layout */
+/* Expanded width for large screens */
 .login-card {
-  width: 80%;
-  max-width: 900px; /* previously 420px */
+  width: 60vw;           /* NEW — takes about 60% of screen width */
+  max-width: none;       /* NEW — removes hard width limit */
   padding: 2rem 2rem;
   background: #caf0f8;
   border-radius: 12px;
@@ -82,7 +82,7 @@
 }
 
 /* ------------------------------------- */
-/* NEW: Two-column form layout */
+/* Two-Column Grid Layout */
 /* ------------------------------------- */
 
 .form-grid {
@@ -91,13 +91,11 @@
   gap: 25px 40px;
 }
 
-/* Simple column wrapper */
 .col {
   display: flex;
   flex-direction: column;
 }
 
-/* Password section spans full width */
 .col-full {
   grid-column: span 2;
 }
@@ -121,18 +119,23 @@
   color: red;
   font-size: 0.8rem;
 }
+.d-flex {
+  display: flex;
+}
+.justify-center {
+  justify-content: center;
+}
 
 /* ------------------------------------- */
-/* RESPONSIVE — revert to one column */
+/* Responsive Layout */
 /* ------------------------------------- */
 @media (max-width: 900px) {
   .login-card {
     width: 95vw;
-    max-width: 600px;
   }
 
   .form-grid {
-    grid-template-columns: 1fr; /* stack vertically on mobile */
+    grid-template-columns: 1fr;
   }
 
   .col-full {
