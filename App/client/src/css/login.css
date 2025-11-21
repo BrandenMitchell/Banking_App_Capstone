@@ -1,15 +1,18 @@
-/* .login-container {
+.login-container {
+  position: relative;
+  z-index: 2;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f1fdf4;
-} */
+}
 
+/* Expanded width for new horizontal layout */
 .login-card {
-  width: 420px;
-  padding: 2rem 1.75rem;
-  background: #dcedc8;
+  width: 80%;
+  max-width: 900px; /* previously 420px */
+  padding: 2rem 2rem;
+  background: #caf0f8;
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   transition: background 0.3s ease, color 0.3s ease;
@@ -18,7 +21,7 @@
 .login-card h2 {
   font-size: 1.6rem;
   font-weight: 600;
-  color: #4caf50;
+  color: rgb(14, 13, 13);
   margin-bottom: 1.2rem;
   text-align: center;
 }
@@ -31,7 +34,7 @@
 }
 
 .mb-2 {
-  margin-bottom: 0.55rem !important; 
+  margin-bottom: 0.55rem !important;
 }
 
 .form-control {
@@ -58,8 +61,8 @@
 }
 
 .btn-primary {
-  background-color: #2e7d32;
-  border-color: #2e7d32;
+  background-color: #023e8a;
+  border-color: #023e8a;
   color: #ffffff;
   font-size: 1rem;
   font-weight: 600;
@@ -69,11 +72,70 @@
 }
 
 .btn-primary:hover {
-  background-color: #1b4d23;
-  border-color: #1b4d23;
+  background-color: #1b234d;
+  border-color: #1b234d;
   color: #ffffff;
 }
 
 .password-input-wrapper input {
-  padding-right: 2.5rem; 
+  padding-right: 2.5rem;
+}
+
+/* ------------------------------------- */
+/* NEW: Two-column form layout */
+/* ------------------------------------- */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px 40px;
+}
+
+/* Simple column wrapper */
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Password section spans full width */
+.col-full {
+  grid-column: span 2;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper button {
+  position: absolute;
+  right: 10px;
+  top: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #2e7d32;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.8rem;
+}
+
+/* ------------------------------------- */
+/* RESPONSIVE — revert to one column */
+/* ------------------------------------- */
+@media (max-width: 900px) {
+  .login-card {
+    width: 95vw;
+    max-width: 600px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr; /* stack vertically on mobile */
+  }
+
+  .col-full {
+    grid-column: span 1;
+  }
 }
