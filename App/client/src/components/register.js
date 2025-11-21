@@ -170,178 +170,72 @@ export default function Register() {
       <div className={`login-card ${shake ? "animate-shake" : ""}`}>
         <h2>Commerce Bank Register</h2>
 
-        <form onSubmit={handleSubmit}>
-          <label className="small-label mb-2">Full Name</label>
-          <input
-            type="text"
-            className="form-control mb-2"
-            value={fullNameInput}
-            onChange={(e) => setFullNameInput(e.target.value)}
-            placeholder="Full name"
-            required
-          />
+        <form onSubmit={handleSubmit} className="form-grid">
 
-          <label className="small-label mb-2">Username</label>
-          <input
-            type="text"
-            className="form-control mb-2"
-            value={usernameInput}
-            onChange={(e) => setUsernameInput(e.target.value)}
-            placeholder="Username"
-            required
-          />
+          {/* LEFT COLUMN */}
+          <div className="col">
+            <label className="small-label mb-2">Full Name</label>
+            <input type="text" className="form-control mb-2" value={fullNameInput} onChange={(e) => setFullNameInput(e.target.value)} placeholder="Full name" />
 
-          <label className="small-label mb-2">Email</label>
-          <input
-            type="email"
-            className="form-control mb-2"
-            value={emailInput}
-            onChange={(e) => setEmailInput(e.target.value)}
-            placeholder="Email"
-            required
-          />
+            <label className="small-label mb-2">Username</label>
+            <input type="text" className="form-control mb-2" value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} placeholder="Username" />
 
-          <label className="small-label mb-2">Phone Number</label>
-          <input
-            type="text"
-            className="form-control mb-2"
-            value={phoneNumberInput}
-            onChange={(e) => setPhoneNumberInput(e.target.value)}
-            placeholder="(123) 456-7890"
-            required
-          />
+            <label className="small-label mb-2">Email</label>
+            <input type="email" className="form-control mb-2" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder="Email" />
 
-          <h4 className="small-label mt-3 mb-2">Address Information</h4>
-
-          <label className="small-label mb-2">Street</label>
-          <input
-            type="text"
-            className="form-control mb-2"
-            value={streetInput}
-            onChange={(e) => setStreetInput(e.target.value)}
-            placeholder="123 Main St"
-            required
-          />
-
-          <label className="small-label mb-2">City</label>
-          <input
-            type="text"
-            className="form-control mb-2"
-            value={cityInput}
-            onChange={(e) => setCityInput(e.target.value)}
-            placeholder="City"
-            required
-          />
-
-          <label className="small-label mb-2">State</label>
-          <input
-            type="text"
-            className="form-control mb-2"
-            value={stateInput}
-            onChange={(e) => setStateInput(e.target.value)}
-            placeholder="State"
-            required
-          />
-
-          <label className="small-label mb-2">ZIP Code</label>
-          <input
-            type="text"
-            className="form-control mb-2"
-            value={zipInput}
-            onChange={(e) => setZipInput(e.target.value)}
-            placeholder="ZIP"
-            required
-          />
-
-          <label className="small-label mb-2">Password</label>
-          <div
-            className="password-input-wrapper mb-2"
-            style={{ position: "relative" }}
-          >
-            <input
-              type={showPassword ? "text" : "password"}
-              className="form-control"
-              value={passwordInput}
-              onChange={handlePasswordChange}
-              placeholder="Enter password"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              style={{
-                position: "absolute",
-                right: "10px",
-                top: "6px",
-                fontSize: "0.8rem",
-                background: "none",
-                border: "none",
-                color: "#2e7d32",
-                cursor: "pointer",
-              }}
-            >
-              {showPassword ? "Hide" : "Show"}
-            </button>
-          </div>
-          {passwordError && (
-            <p className="small-text text-red-600">{passwordError}</p>
-          )}
-
-          <label className="small-label mb-2">Retype Password</label>
-          <div
-            className="password-input-wrapper mb-2"
-            style={{ position: "relative" }}
-          >
-            <input
-              type={showConfirmPassword ? "text" : "password"}
-              className="form-control"
-              value={rePasswordInput}
-              onChange={handleConfirmPasswordChange}
-              placeholder="Retype password"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              style={{
-                position: "absolute",
-                right: "10px",
-                top: "6px",
-                fontSize: "0.8rem",
-                background: "none",
-                border: "none",
-                color: "#2e7d32",
-                cursor: "pointer",
-              }}
-            >
-              {showConfirmPassword ? "Hide" : "Show"}
-            </button>
+            <label className="small-label mb-2">Phone Number</label>
+            <input type="text" className="form-control mb-2" value={phoneNumberInput} onChange={(e) => setPhoneNumberInput(e.target.value)} placeholder="(123) 456-7890" />
           </div>
 
-          {confirmPasswordError && (
-            <p className="small-text text-red-600">{confirmPasswordError}</p>
-          )}
-          {!confirmPasswordError && rePasswordInput && (
-            <p className="small-text text-green-600">Passwords matched</p>
-          )}
+          {/* RIGHT COLUMN */}
+          <div className="col">
+            <label className="small-label mb-2">Street</label>
+            <input type="text" className="form-control mb-2" value={streetInput} onChange={(e) => setStreetInput(e.target.value)} placeholder="123 Main St" />
 
-          <button
-            type="submit"
-            className="btn-primary w-100 mt-3"
-            disabled={!isFormValid}
-          >
+            <label className="small-label mb-2">City</label>
+            <input type="text" className="form-control mb-2" value={cityInput} onChange={(e) => setCityInput(e.target.value)} placeholder="City" />
+
+            <label className="small-label mb-2">State</label>
+            <input type="text" className="form-control mb-2" value={stateInput} onChange={(e) => setStateInput(e.target.value)} placeholder="State" />
+
+            <label className="small-label mb-2">ZIP Code</label>
+            <input type="text" className="form-control mb-2" value={zipInput} onChange={(e) => setZipInput(e.target.value)} placeholder="ZIP" />
+          </div>
+
+          {/* FULL WIDTH PASSWORD SECTION */}
+          <div className="col-full">
+            <label className="small-label mb-2">Password</label>
+            <div className="password-wrapper">
+              <input type={showPassword ? "text" : "password"} className="form-control" value={passwordInput} onChange={handlePasswordChange} placeholder="Enter password" />
+              <button type="button" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+
+            {passwordError && <p className="error-text">{passwordError}</p>}
+
+            <label className="small-label mb-2">Retype Password</label>
+            <div className="password-wrapper">
+              <input type={showConfirmPassword ? "text" : "password"} className="form-control" value={rePasswordInput} onChange={handleConfirmPasswordChange} placeholder="Retype password" />
+              <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                {showConfirmPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+
+            {confirmPasswordError && <p className="error-text">{confirmPasswordError}</p>}
+          </div>
+
+          <button type="submit" className="btn-primary w-100 mt-3" disabled={!isFormValid}>
             Register
           </button>
 
           {message && (
-            <div
-              className="alert text-center mt-3"
-              style={{ color: isSuccess ? "#2e7d32" : "#c62828" }}
-            >
+            <div className="alert text-center mt-3" style={{ color: isSuccess ? "#2e7d32" : "#c62828" }}>
               {message}
             </div>
           )}
         </form>
+
         <div className="text-center mt-3 small-text">
           <span>
             Have an account?{" "}
