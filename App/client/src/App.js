@@ -10,6 +10,8 @@ import Dashboard from "./components/dashboard";
 import Profile from "./components/profile";
 import LandingPage from "./components/LandingPage";
 import AccountsPage from "./components/AccountsPage";
+import Forgot from "./components/forgot";
+
 const App = () => {
   return (
       <div className="App d-flex flex-column min-vh-100">
@@ -27,6 +29,7 @@ const App = () => {
             <Route path="/dashboard" element= {<Dashboard />} />
             <Route path="/accounts" element= {<AccountsPage />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/forgot" element={<Forgot />} />
             <Route path="*" element={<div>404 Not Found</div>} />
           </Routes>
         </main>

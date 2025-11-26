@@ -121,7 +121,7 @@ const Login = () => {
             </button>
           </form>
           <div className="text-center mt-3 small-text">
-            <a href="/forgot-password" className="d-block mb-2">
+            <a href="/forgot" className="d-block mb-2">
               Forgot Password?
             </a>
             <span>

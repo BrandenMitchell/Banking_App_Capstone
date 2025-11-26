@@ -142,3 +142,18 @@
     grid-column: span 1;
   }
 }
+
+
+/* Make forgot password card narrower */
+.forgot-card {
+  width: 60vw;
+  max-width: none;
+}
+
+@media (max-width: 900px) {
+  .forgot-card {
+    width: 90vw;
+    min-width: unset;
+    max-width: unset;
+  }
+}
