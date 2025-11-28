@@ -1,8 +1,7 @@
 // login.js
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { AuthContext } from "../context/authContext";
 import "../css/login.css";
 import backgroundImage from "../assets/images/background.jpg";
 
@@ -16,18 +15,17 @@ const Login = () => {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const navigate = useNavigate();
+
   const togglePassword = () => setShowPassword(!showPassword);
 
-  const validatePassword = (pwd) =>
-    /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$/.test(pwd);
+  const validatePassword = (pwd) => {
+    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$/;
+    return regex.test(pwd);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!identifier) {
-      setError("Please enter your username or email.");
-      return;
-    }
 
     if (!validatePassword(password)) {
       setError(
@@ -42,8 +40,8 @@ const Login = () => {
       alert("Logged in successfully!");
       navigate("/dashboard");
     } catch (err) {
-      console.error(err);
-      setError(err.message || "Login failed");
+      console.error("Login error:", err);
+      setError("Login failed");
     }
   };
 
@@ -138,3 +136,4 @@ const Login = () => {
 };
 
 export default Login;
+
