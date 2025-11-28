@@ -7,10 +7,10 @@
   min-height: 100vh;
 }
 
-/* Expanded width for large screens */
+/* Expanded width for new horizontal layout */
 .login-card {
-  width: 60vw;           /* NEW — takes about 60% of screen width */
-  max-width: none;       /* NEW — removes hard width limit */
+  width: 80%;
+  max-width: 900px; /* previously 420px */
   padding: 2rem 2rem;
   background: #caf0f8;
   border-radius: 12px;
@@ -82,7 +82,7 @@
 }
 
 /* ------------------------------------- */
-/* Two-Column Grid Layout */
+/* NEW: Two-column form layout */
 /* ------------------------------------- */
 
 .form-grid {
@@ -91,11 +91,13 @@
   gap: 25px 40px;
 }
 
+/* Simple column wrapper */
 .col {
   display: flex;
   flex-direction: column;
 }
 
+/* Password section spans full width */
 .col-full {
   grid-column: span 2;
 }
@@ -119,41 +121,21 @@
   color: red;
   font-size: 0.8rem;
 }
-.d-flex {
-  display: flex;
-}
-.justify-center {
-  justify-content: center;
-}
 
 /* ------------------------------------- */
-/* Responsive Layout */
+/* RESPONSIVE — revert to one column */
 /* ------------------------------------- */
 @media (max-width: 900px) {
   .login-card {
     width: 95vw;
+    max-width: 600px;
   }
 
   .form-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* stack vertically on mobile */
   }
 
   .col-full {
     grid-column: span 1;
-  }
-}
-
-
-/* Make forgot password card narrower */
-.forgot-card {
-  width: 60vw;
-  max-width: none;
-}
-
-@media (max-width: 900px) {
-  .forgot-card {
-    width: 90vw;
-    min-width: unset;
-    max-width: unset;
   }
 }

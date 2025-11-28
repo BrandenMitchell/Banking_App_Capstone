@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
   // Login expects an object with { username, email, password }
   const login = async ({ identifier, password }) => {
-    const res = await fetch("http://localhost:3001/api/auth/login", {
+    const res = await fetch("http://localhost:5000/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ identifier, password }),
@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }) => {
     const refreshToken = localStorage.getItem("refreshToken");
     if (!refreshToken) return;
 
-    const res = await fetch("http://localhost:3001/api/auth/refresh", {
+    const res = await fetch("http://localhost:5000/api/auth/refresh", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refreshToken }),

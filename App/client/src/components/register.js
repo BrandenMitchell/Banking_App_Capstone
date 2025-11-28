@@ -225,16 +225,9 @@ export default function Register() {
             {confirmPasswordError && <p className="error-text">{confirmPasswordError}</p>}
           </div>
 
-          <div className="col-full d-flex justify-center mt-3">
-            <button
-              type="submit"
-              className="btn-primary w-100 mt-3"
-              disabled={!isFormValid}
-            >
-              Register
-            </button>
-          </div>
-
+          <button type="submit" className="btn-primary w-100 mt-3" disabled={!isFormValid}>
+            Register
+          </button>
 
           {message && (
             <div className="alert text-center mt-3" style={{ color: isSuccess ? "#2e7d32" : "#c62828" }}>
