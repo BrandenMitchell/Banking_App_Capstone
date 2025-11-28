@@ -10,6 +10,7 @@ import Dashboard from "./components/dashboard";
 import Profile from "./components/profile";
 import LandingPage from "./components/LandingPage";
 import AccountsPage from "./components/AccountsPage";
+import ChatPage from "./components/ChatPage";
 const App = () => {
   return (
       <div className="App d-flex flex-column min-vh-100">
@@ -26,6 +27,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element= {<Dashboard />} />
             <Route path="/accounts" element= {<AccountsPage />} />
+            <Route path="/chat" element={<ChatPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<div>404 Not Found</div>} />
           </Routes>
