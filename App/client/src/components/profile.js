@@ -85,7 +85,7 @@ const Profile = () => {
           &larr; Back to Dashboard
         </button>
 
-        <h2 className="text-center mb-4 text-success fw-bold fs-3">My Profile</h2>
+        <h2 className="text-center mb-4 fw-bold fs-3 profile-heading">My Profile</h2>
 
         <div className="mb-4">
           {["fullName", "email", "phone"].map((field) => (
@@ -106,7 +106,7 @@ const Profile = () => {
                   <span>{user[field] || "—"}</span>
                 )}
               </div>
-              <FaPencilAlt className="text-success ms-3 edit-icon" onClick={() => handleEditClick(field)} />
+              <FaPencilAlt className="ms-3 edit-icon profile-icon" onClick={() => handleEditClick(field)} />
             </div>
           ))}
 
@@ -165,7 +165,7 @@ const Profile = () => {
 
         <hr />
 
-        <h4 className="text-success fw-bold fs-5 mb-3 text-center">Settings</h4>
+        <h4 className="fw-bold fs-5 mb-3 text-center profile-subheading">Settings</h4>
 
         <div className = "settings-section">
           <h5 className="mb-3">Notification Preferences</h5>

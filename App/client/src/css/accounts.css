@@ -1,15 +1,15 @@
 :root {
-  --timberwolf: #dad7cd;
-  --sage: #a3b18a;
-  --fern-green: #588157;
-  --hunter-green: #3a5a40;
-  --brunswick-green: #344e41;
+  --navy: #001524;
+  --teal: #15616d;
+  --cream: #ffecd1;
+  --orange: #ff7d00;
+  --rust: #78290f;
 
-  --bg-main: var(--brunswick-green);
-  --bg-card: var(--hunter-green);
-  --text-light: var(--timberwolf);
-  --accent: var(--fern-green);
-  --hover: var(--sage);
+  --bg-main: var(--navy);
+  --bg-card: #0a2a37;
+  --text-light: var(--cream);
+  --accent: var(--orange);
+  --hover: var(--teal);
 
   --font-xs: 12px;
   --font-sm: 14px;
@@ -42,7 +42,7 @@
 /* === HEADER === */
 .accounts-header {
   margin-bottom: 24px;
-  background-color: var(--hunter-green);
+  background-color: var(--teal);
   border-radius: 10px;
   padding: 12px 18px;
   display: flex;
@@ -57,7 +57,7 @@
 }
 .accounts-subtitle {
   font-size: var(--font-lg);
-  color: var(--hover);
+  color: rgba(255, 236, 209, 0.75);
 }
 
 /* === ACCOUNTS SECTION === */
@@ -85,7 +85,7 @@
 .account-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  background-color: var(--hunter-green);
+  background-color: var(--teal);
 }
 
 .account-card.selected {
@@ -105,7 +105,7 @@
 .account-type {
   font-size: var(--font-sm);
   margin-bottom: 12px;
-  color: var(--hover);
+  color: rgba(255, 236, 209, 0.8);
 }
 
 /* === TRANSFER BUTTON === */
@@ -121,7 +121,7 @@
 }
 
 .transfer-btn:hover {
-  background: var(--sage);
+  background: var(--rust);
 }
 
 /* === TRANSACTIONS SECTION === */
@@ -147,7 +147,7 @@
   text-align: left;
   padding: 10px;
   font-weight: 600;
-  color: var(--hover);
+  color: rgba(255, 236, 209, 0.9);
   background-color: transparent;
 }
 
@@ -157,7 +157,7 @@
   border-radius: 8px;
 }
 
-.transactions-table td.negative { color: #ff6b6b; }
+.transactions-table td.negative { color: var(--rust); }
 .transactions-table td.positive { color: var(--accent); }
 
 /* === RESPONSIVE === */

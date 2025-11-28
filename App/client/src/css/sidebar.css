@@ -1,10 +1,10 @@
 :root {
-  /* Color Palette + Fonts (kept as you provided) */
-  --timberwolf: #dad7cd;
-  --sage: #a3b18a;
-  --fern-green: #588157;
-  --hunter-green: #3a5a40;
-  --brunswick-green: #344e41;
+  --navy: #001524;
+  --teal: #15616d;
+  --cream: #ffecd1;
+  --orange: #ff7d00;
+  --rust: #78290f;
+  --sidebar-surface: #0a2a37;
 
   --font-family: "Montserrat", "Open Sans", sans-serif;
   --font-size-base: 15px;
@@ -22,8 +22,8 @@
 /* ---------- Sidebar container ---------- */
 .sidebar {
   font-family: var(--font-family);
-  background-color: var(--sage);
-  color: var(--brunswick-green);
+  background-color: var(--sidebar-surface);
+  color: var(--cream);
   width: var(--sidebar-width);
   height: 100vh;
   display: flex;
@@ -46,8 +46,8 @@
   top: 50%;
   right: -14px;                   /* slightly outside sidebar edge */
   transform: translateY(-50%);    /* vertically centered */
-  background-color: var(--hunter-green);
-  color: var(--timberwolf);
+  background-color: var(--teal);
+  color: var(--cream);
   border: none;
   border-radius: 50%;
   width: 34px;
@@ -64,7 +64,7 @@
 
 /* small hover/press affordance without moving its baseline */
 .collapse-btn:hover {
-  background-color: var(--fern-green);
+  background-color: var(--orange);
   transform: translateY(-50%) scale(1.04);
 }
 
@@ -94,8 +94,8 @@
 }
 
 .brand-short {
-  background: var(--timberwolf);
-  color: var(--brunswick-green);
+  background: var(--cream);
+  color: var(--navy);
   border-radius: 8px;
   padding: 6px 10px;
   font-weight: var(--font-weight-bold);
@@ -145,13 +145,13 @@
 
 /* normal hover/active when expanded */
 .sidebar-item:hover {
-  background-color: var(--fern-green);
-  color: var(--timberwolf);
+  background-color: rgba(21, 97, 109, 0.4);
+  color: var(--cream);
 }
 
 .sidebar-item.active {
-  background-color: var(--hunter-green);
-  color: var(--timberwolf);
+  background-color: var(--teal);
+  color: var(--cream);
 }
 
 /* ---------- Hide text when collapsed (but keep icon/CB visible) ---------- */
@@ -176,7 +176,7 @@
 .sidebar.collapsed .sidebar-item:hover,
 .sidebar.collapsed .sidebar-item.active {
   background-color: transparent !important;
-  color: var(--brunswick-green) !important;
+  color: var(--cream) !important;
   box-shadow: none !important;
 }
 
@@ -185,17 +185,13 @@
 .sidebar.collapsed .logout-btn:hover,
 .sidebar.collapsed .logout-btn .nav-text {
   background-color: transparent !important;
-  color: var(--brunswick-green) !important;
+  color: var(--cream) !important;
   box-shadow: none !important;
   opacity: 0;            /* hide text portion */
   width: 0;
   overflow: hidden;
   transition: opacity 0.1s ease 0s;
 }
-
-/* when expanded, restore hover / active behaviors */
-.sidebar:not(.collapsed) .sidebar-item:hover { /* already defined above */ }
-.sidebar:not(.collapsed) .sidebar-item.active { /* already defined above */ }
 
 /* ---------- Bottom logout ---------- */
 .sidebar-bottom {
@@ -206,7 +202,7 @@
 .logout-btn {
   background: none;
   border: none;
-  color: var(--brunswick-green);
+  color: var(--cream);
   font-weight: var(--font-weight-bold);
   width: 100%;
   text-align: left;
@@ -217,8 +213,8 @@
 }
 
 .logout-btn:hover {
-  background-color: var(--fern-green);
-  color: var(--timberwolf);
+  background-color: rgba(21, 97, 109, 0.4);
+  color: var(--cream);
 }
 
 /* restore text on expand with delay */

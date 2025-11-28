@@ -1,47 +1,47 @@
+:root {
+  --color-navy: #001524;
+  --color-teal: #15616d;
+  --color-cream: #ffecd1;
+  --color-orange: #ff7d00;
+  --color-rust: #78290f;
+}
+
 html, body, #root {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
+  background-color: var(--color-navy);
+  color: var(--color-cream);
 }
-
 
 body {
-  background-color: #344e41;
-
-  margin:0;
+  font-family: "Inter", "Segoe UI", sans-serif;
 }
+
 .App {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; 
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  font-size: 4em;
-  margin:0px;
-  padding: 0px;
-  background-color: #344e41;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-navy);
 }
+
 header, footer {
-  background-color:#7b7b7c ;
-  color:rgb(14, 222, 52);
+  background-color: var(--color-teal);
+  color: var(--color-cream);
   padding: 1rem;
-  height: 10%;
-  padding: 0 0 0;
 }
 
 main {
-  flex-grow: 1; 
+  flex-grow: 1;
   padding: 1rem;
-  background-color: #ffffff;
-  margin:0px;
-  padding: 0px;
-  background-color: #344e41;
-
+  background-color: var(--color-navy);
 }
 
-/* Make footer copyright text smaller */
 footer p {
   margin: 0;
   font-size: 0.85rem;
-  color: #ffffffcc;
+  color: rgba(255, 236, 209, 0.8);
 }

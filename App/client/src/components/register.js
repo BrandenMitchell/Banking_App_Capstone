@@ -230,7 +230,10 @@ export default function Register() {
           </button>
 
           {message && (
-            <div className="alert text-center mt-3" style={{ color: isSuccess ? "#2e7d32" : "#c62828" }}>
+          <div
+            className="alert text-center mt-3"
+            style={{ color: isSuccess ? "#15616d" : "#78290f" }}
+          >
               {message}
             </div>
           )}
