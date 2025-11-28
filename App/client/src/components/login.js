@@ -1,15 +1,14 @@
 // login.js
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../css/login.css";
 import backgroundImage from "../assets/images/background.jpg";
+import { AuthContext } from "../context/authContext";
 
 
 const Login = () => {
   const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
-
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
