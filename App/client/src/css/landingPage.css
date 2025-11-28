@@ -1,0 +1,113 @@
+/* Global Layout */
+.landing-page {
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+
+/* Navbar */
+.navbar-custom {
+  background: rgba(163, 203, 235, 0.55); /* match hero overlay */
+  /* padding: 1rem 2rem; */
+  margin: 0;
+  width: vw;
+  border-bottom: none; /* remove any default border */
+  
+}
+
+
+.register-btn {
+  color: #1a5f7a !important; /* changed color */
+  background: #d4e6f1;        /* button background */
+  font-size: 0.85rem;         /* smaller text */
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.register-btn:hover {
+  background: #1a5f7a;
+  color: #fff !important;
+}
+
+/* Hero Section */
+.hero-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('https://images.unsplash.com/photo-1612831455544-6f6dcf72c27b?auto=format&fit=crop&w=1470&q=80') no-repeat center center;
+  background-size: cover;
+  position: relative;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(163, 203, 235, 0.55); /* overlay for readability */
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 550px;
+  background: rgba(20,25,34,0.55);
+  padding: 35px 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.hero-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.hero-tagline {
+  font-size: 1rem;
+  color: #d4e6f1;
+  margin-bottom: 20px;
+}
+
+.hero-btn {
+  background: #1b76d1;
+  border: none;
+  padding: 8px 20px;
+  font-size: 0.95rem;
+  border-radius: 6px;
+}
+
+.hero-btn:hover {
+  background: #0a3d62;
+}
+
+/* About Section */
+.about-section {
+  background:#626364;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.about-section h2 {
+  font-weight: 600;
+  margin-bottom: 18px;
+  font-size: 1.4rem;
+}
+
+.about-section p {
+  color: #dceaf5;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}

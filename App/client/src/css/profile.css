@@ -3,12 +3,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f1fdf4;
+  /*background-color: #344e41;*/
+  background-color: #dcdcdd;
+
 }
 
 .profile-card {
   width: 600px;
-  background-color: #dcedc8;
+  background-color: #a9d6eb;
   padding: 3rem;
   border-radius: 12px;
 }
@@ -60,3 +62,78 @@
   font-size: 0.95rem;
   color: #333;
 }
+
+.delete-account-btn {
+  background-color: #e74c3c;
+  color:#fff;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: 0.2s;
+  margin-top: 0.5rem;
+  padding: 0.4rem 1rem;
+}
+
+.delete-account-btn:hover {
+  filter: brightness(85%);
+  color: #ffe4e1
+}
+
+.delete-confirmation{
+  background: #fff9e3;
+  border: 1px solid #ffd900;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  margin-top: 0.8rem;
+  color: #b67900;
+  font-size: 0.96rem;
+}
+
+.switch{
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+.switch input{
+  display: none;
+}
+
+.slider{
+  position:absolute;
+  cursor: pointer;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background-color: #ccc;
+  border-radius: 24px;
+  transition: 0.3s;
+}
+
+.slider:before{
+  position: absolute;
+  content: "";
+  height: 19px;
+  width: 19px;
+  left: 3px;
+  bottom: 2.5px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider:before{
+  transform: translateX(21px);
+}
+
+input:checked +.slider{
+  background-color: #25c366;
+}
+
+.setting-item{
+  font-size: 1.04rem;
+  font-weight:  500;
+}
+
+

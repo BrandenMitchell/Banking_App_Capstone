@@ -1,5 +1,15 @@
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
 body {
-  background-color: #190722;
+  background-color: #344e41;
+
+  margin:0;
 }
 .App {
   display: flex;
@@ -7,16 +17,26 @@ body {
   min-height: 100vh; 
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-size: 4em;
+  margin:0px;
+  padding: 0px;
+  background-color: #344e41;
 }
 header, footer {
-  background-color:#2b378b ;
+  background-color:#7b7b7c ;
+  color:rgb(14, 222, 52);
   padding: 1rem;
+  height: 10%;
+  padding: 0 0 0;
 }
 
 main {
   flex-grow: 1; 
   padding: 1rem;
-  background-color: #1f2255;
+  background-color: #ffffff;
+  margin:0px;
+  padding: 0px;
+  background-color: #344e41;
+
 }
 
 /* Make footer copyright text smaller */

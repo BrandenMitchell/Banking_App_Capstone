@@ -1,8 +1,11 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/authContext";
+import "../css/login.css";
+import { useNavigate } from "react-router-dom"; // for redirect
 
 export default function Register() {
-  const { login } = useContext(AuthContext); // auto-login after registration
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [emailInput, setEmailInput] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
@@ -12,7 +15,6 @@ export default function Register() {
   const [cityInput, setCityInput] = useState("");
   const [stateInput, setStateInput] = useState("");
   const [zipInput, setZipInput] = useState("");
-
   const [passwordInput, setPasswordInput] = useState("");
   const [rePasswordInput, setRePasswordInput] = useState("");
 
@@ -63,7 +65,6 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (
       passwordError ||
       confirmPasswordError ||
@@ -105,6 +106,7 @@ export default function Register() {
       });
 
       const data = await res.json();
+      console.log("Registration response:", data);
 
       if (!res.ok) {
         setMessage(data.message || "Registration failed");
@@ -115,24 +117,33 @@ export default function Register() {
       setIsSuccess(true);
       setMessage("Registration successful! Logging you in...");
 
-      // Automatically log the user in after successful registration
-      await login({
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-      });
+      try {
+        await login({
+          identifier: usernameInput || emailInput,
+          password: passwordInput,
+        });
 
-      // Reset form
-      setEmailInput("");
-      setUsernameInput("");
-      setFullNameInput("");
-      setPhoneNumberInput("");
-      setStreetInput("");
-      setCityInput("");
-      setStateInput("");
-      setZipInput("");
-      setPasswordInput("");
-      setRePasswordInput("");
+        // redirect to dashboard
+        navigate("/dashboard");
+
+        // clear form fields
+        setEmailInput("");
+        setUsernameInput("");
+        setFullNameInput("");
+        setPhoneNumberInput("");
+        setStreetInput("");
+        setCityInput("");
+        setStateInput("");
+        setZipInput("");
+        setPasswordInput("");
+        setRePasswordInput("");
+      } catch (err) {
+        console.error("Auto-login failed:", err.message);
+        setMessage(
+          "Registration succeeded, but login failed. Please login manually."
+        );
+        setIsSuccess(false);
+      }
     } catch (err) {
       console.error("Registration error:", err);
       setMessage("Network error or server unavailable");
@@ -156,185 +167,89 @@ export default function Register() {
 
   return (
     <div className="login-container">
-      <div className="login-card shadow-lg rounded-3">
-        <h2 className="text-center mb-4">Commerce Bank Register</h2>
-        <div className="space-y-4">
-          <form onSubmit={handleSubmit}>
-            {/* Full Name */}
-            <label className="block text-gray-700 mb-3">Full Name</label>
-            <input
-              type="text"
-              value={fullNameInput}
-              onChange={(e) => setFullNameInput(e.target.value)}
-              placeholder="Full name"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
+      <div className={`login-card ${shake ? "animate-shake" : ""}`}>
+        <h2>Commerce Bank Register</h2>
 
-            {/* Username */}
-            <label className="block text-gray-700 mb-3">Username</label>
-            <input
-              type="text"
-              value={usernameInput}
-              onChange={(e) => setUsernameInput(e.target.value)}
-              placeholder="Username"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
+        <form onSubmit={handleSubmit} className="form-grid">
 
-            {/* Email */}
-            <label className="block text-gray-700 mb-3">Email</label>
-            <input
-              type="email"
-              value={emailInput}
-              onChange={(e) => setEmailInput(e.target.value)}
-              placeholder="Email"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
+          {/* LEFT COLUMN */}
+          <div className="col">
+            <label className="small-label mb-2">Full Name</label>
+            <input type="text" className="form-control mb-2" value={fullNameInput} onChange={(e) => setFullNameInput(e.target.value)} placeholder="Full name" />
 
-            {/* Phone */}
-            <label className="block text-gray-700 mb-3">Phone Number</label>
-            <input
-              type="text"
-              value={phoneNumberInput}
-              onChange={(e) => setPhoneNumberInput(e.target.value)}
-              placeholder="(123) 456-7890"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
+            <label className="small-label mb-2">Username</label>
+            <input type="text" className="form-control mb-2" value={usernameInput} onChange={(e) => setUsernameInput(e.target.value)} placeholder="Username" />
 
-            {/* Address */}
-            <h4 className="text-gray-700 mt-4 mb-2">Address Information</h4>
+            <label className="small-label mb-2">Email</label>
+            <input type="email" className="form-control mb-2" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} placeholder="Email" />
 
-            <label className="block text-gray-700 mb-3">Street</label>
-            <input
-              type="text"
-              value={streetInput}
-              onChange={(e) => setStreetInput(e.target.value)}
-              placeholder="123 Main St"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
+            <label className="small-label mb-2">Phone Number</label>
+            <input type="text" className="form-control mb-2" value={phoneNumberInput} onChange={(e) => setPhoneNumberInput(e.target.value)} placeholder="(123) 456-7890" />
+          </div>
 
-            <label className="block text-gray-700 mb-3">City</label>
-            <input
-              type="text"
-              value={cityInput}
-              onChange={(e) => setCityInput(e.target.value)}
-              placeholder="City"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
+          {/* RIGHT COLUMN */}
+          <div className="col">
+            <label className="small-label mb-2">Street</label>
+            <input type="text" className="form-control mb-2" value={streetInput} onChange={(e) => setStreetInput(e.target.value)} placeholder="123 Main St" />
 
-            <label className="block text-gray-700 mb-3">State</label>
-            <input
-              type="text"
-              value={stateInput}
-              onChange={(e) => setStateInput(e.target.value)}
-              placeholder="State"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
+            <label className="small-label mb-2">City</label>
+            <input type="text" className="form-control mb-2" value={cityInput} onChange={(e) => setCityInput(e.target.value)} placeholder="City" />
 
-            <label className="block text-gray-700 mb-3">ZIP Code</label>
-            <input
-              type="text"
-              value={zipInput}
-              onChange={(e) => setZipInput(e.target.value)}
-              placeholder="ZIP"
-              className="form-control"
-              style={{ display: "block", marginBottom: "10px" }}
-              required
-            />
+            <label className="small-label mb-2">State</label>
+            <input type="text" className="form-control mb-2" value={stateInput} onChange={(e) => setStateInput(e.target.value)} placeholder="State" />
 
-            {/* Password */}
-            <label className="block text-gray-700 mb-3">Password</label>
-            <div className={`relative ${shake ? "animate-shake" : ""}`}>
-              <input
-                type={showPassword ? "text" : "password"}
-                value={passwordInput}
-                onChange={handlePasswordChange}
-                placeholder="Enter password"
-                className={`w-full p-2 border rounded mb-1 ${
-                  passwordError
-                    ? "border-red-500"
-                    : passwordInput
-                    ? "border-green-500"
-                    : "border-gray-300"
-                }`}
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-2 top-2 text-sm text-gray-600"
-              >
+            <label className="small-label mb-2">ZIP Code</label>
+            <input type="text" className="form-control mb-2" value={zipInput} onChange={(e) => setZipInput(e.target.value)} placeholder="ZIP" />
+          </div>
+
+          {/* FULL WIDTH PASSWORD SECTION */}
+          <div className="col-full">
+            <label className="small-label mb-2">Password</label>
+            <div className="password-wrapper">
+              <input type={showPassword ? "text" : "password"} className="form-control" value={passwordInput} onChange={handlePasswordChange} placeholder="Enter password" />
+              <button type="button" onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
 
-            {passwordError && (
-              <p className="text-red-500 font-bold">{passwordError}</p>
-            )}
+            {passwordError && <p className="error-text">{passwordError}</p>}
 
-            {/* Confirm Password */}
-            <label className="block text-gray-700 mb-3">Retype Password</label>
-            <div className={`relative ${shake ? "animate-shake" : ""}`}>
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                value={rePasswordInput}
-                onChange={handleConfirmPasswordChange}
-                placeholder="Retype password"
-                className={`w-full p-2 border rounded mb-1 ${
-                  confirmPasswordError
-                    ? "border-red-500"
-                    : rePasswordInput
-                    ? "border-green-500"
-                    : "border-gray-300"
-                }`}
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-2 top-2 text-sm text-gray-600"
-              >
+            <label className="small-label mb-2">Retype Password</label>
+            <div className="password-wrapper">
+              <input type={showConfirmPassword ? "text" : "password"} className="form-control" value={rePasswordInput} onChange={handleConfirmPasswordChange} placeholder="Retype password" />
+              <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                 {showConfirmPassword ? "Hide" : "Show"}
               </button>
             </div>
 
-            {confirmPasswordError && (
-              <p className="text-red-500 font-bold">{confirmPasswordError}</p>
-            )}
-            {!confirmPasswordError && rePasswordInput && (
-              <p className="text-green-500">Passwords matched</p>
-            )}
+            {confirmPasswordError && <p className="error-text">{confirmPasswordError}</p>}
+          </div>
 
+          <div className="col-full d-flex justify-center mt-3">
             <button
               type="submit"
-              className="btn btn-primary w-100 mt-3"
+              className="btn-primary w-100 mt-3"
               disabled={!isFormValid}
             >
               Register
             </button>
-          </form>
+          </div>
+
 
           {message && (
-            <p
-              className="text-center mt-3"
-              style={{ color: isSuccess ? "green" : "red", fontWeight: "500" }}
-            >
+            <div className="alert text-center mt-3" style={{ color: isSuccess ? "#2e7d32" : "#c62828" }}>
               {message}
-            </p>
+            </div>
           )}
+        </form>
+
+        <div className="text-center mt-3 small-text">
+          <span>
+            Have an account?{" "}
+            <a href="/" className="text-primary fw-bold">
+              Back to Login
+            </a>
+          </span>
         </div>
       </div>
     </div>
