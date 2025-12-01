@@ -47,8 +47,15 @@ const Dashboard = () => {
     2: [
       { id: 1, date: "2025-10-27", description: "Deposit", amount: 5000 },
       { id: 2, date: "2025-10-26", description: "Withdrawal", amount: -200 },
+      { id: 2, date: "2025-10-26", description: "Withdrawal", amount: 400 }
     ],
-    3: [{ id: 1, date: "2025-10-25", description: "Payment", amount: -540 }],
+    3: [{ id: 1, date: "2025-10-25", description: "Payment", amount: -540 },
+      { id: 1, date: "2025-10-29", description: "Deposit", amount: -836 },
+      { id: 2, date: "2025-10-28", description: "Withdrawal", amount: -160 },
+      { id: 3, date: "2025-10-27", description: "Deposit", amount: 340 },
+      { id: 4, date: "2025-10-26", description: "Deposit", amount: 565 },
+      
+    ],
   };
 
   const spendingData = [
@@ -91,7 +98,7 @@ if (loading) {
       alignItems: "center",
       justifyContent: "center",
       height: "100vh",
-      backgroundColor: "#344e41",
+      backgroundColor: "#001219",
       color: "#dad7cd",
       fontFamily: "Inter, sans-serif",
       fontSize: "18px",
@@ -170,15 +177,15 @@ if (loading) {
                 <YAxis stroke="#dad7cd" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#3a5a40",
-                    border: "1px solid #588157",
+                    backgroundColor: "#001219",
+                    border: "1px solid #001219",
                     color: "#dad7cd",
                   }}
                 />
                 <Line
                   type="monotone"
                   dataKey="balance"
-                  stroke="#14213D"
+                  stroke="#e5eaf3ff"
                   strokeWidth={3}
                   dot={{ fill: "#023047", r: 5 }}
                   activeDot={{ r: 8 }}

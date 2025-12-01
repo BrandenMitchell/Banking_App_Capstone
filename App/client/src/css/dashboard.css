@@ -1,15 +1,9 @@
 :root {
-  --timberwolf: #dad7cd;
-  --sage: #a3b18a;
-  --fern-green: #588157;
-  --hunter-green: #3a5a40;
-  --brunswick-green: #344e41;
-
-  --bg-main: var(--brunswick-green);
-  --bg-card: var(--hunter-green);
-  --text-light: var(--timberwolf);
-  --accent: var(--fern-green);
-  --hover: var(--sage);
+  --bg-main: #001219;
+  --bg-card: #22577a;
+  --text-light: #dad7cd;
+  --accent: #588157;
+  --hover: #a3b18a;
 
   --font-xs: 12px;
   --font-sm: 14px;
@@ -25,7 +19,7 @@
 html, body {
   font-size: var(--font-md);
   line-height: var(--line-height);
-  color: var(--text-light);
+  color: white;
   font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
   background-color: var(--bg-main);
   margin: 0;
@@ -48,7 +42,6 @@ html, body {
   flex-direction: column;
   overflow-y: auto;
   background-color: var(--bg-main);
-  color: var(--text-light);
 }
 
 /* Header with blue banner */
@@ -62,6 +55,7 @@ html, body {
   justify-content: center;
   height: 7%;
 }
+
 .dashboard-title {
   font-size: var(--font-xxl);
   font-weight: 700;
@@ -78,7 +72,7 @@ html, body {
 /* === ACCOUNTS SECTION === */
 .section-title {
   font-size: var(--font-lg);
-  color: var(--timberwolf);
+  color: #fafafa;
   margin: 10px 0 16px 0;
   font-weight: 600;
 }
@@ -90,7 +84,6 @@ html, body {
 }
 
 .account-card {
-  background-color: var(--bg-card);
   color: var(--text-light);
   padding: 14px 18px;
   border-radius: 10px;
@@ -98,15 +91,21 @@ html, body {
   min-width: 160px;
   flex: 1;
   text-align: left;
+  background-color: var(--bg-card);
   transition: transform 120ms ease, box-shadow 120ms ease, background-color 0.2s ease;
+}
+.account-card p {
+  color:  #fafafa;
+
 }
 .account-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  background-color: var(--hunter-green);
+  background-color: #1d4a68;
+
 }
 .account-card.selected {
-  border: 2px solid var(--accent);
+  border: 2px solid var(--text-light);
 }
 
 .account-name {
@@ -146,7 +145,7 @@ html, body {
 .transactions-table td.positive { color: var(--accent); }
 .chart-section {
   margin-top: 28px;
-  background-color: var(--bg-card);
+  background-color: #22577a;
   border-radius: 12px;
   padding: 16px 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.25);
@@ -156,6 +155,7 @@ html, body {
 .chart-section .section-title {
   font-size: var(--font-md);
   margin-bottom: 6px;
+  color: #fafafa;
 }
 
 .recharts-cartesian-axis-tick text {
@@ -185,8 +185,8 @@ html, body {
   .dashboard-title { font-size: 24px; }
 }
 .add-account-plus {
-  background-color: var(--bg-card);
-  color: var(--text-light);
+  
+  color: #fafafa;
   padding: 14px 18px;
   border-radius: 10px;
   cursor: pointer;
@@ -204,4 +204,5 @@ html, body {
 .spending-section {
   margin-top: 50px;
   font-size: 20px;
+  color: #fafafa;
 }

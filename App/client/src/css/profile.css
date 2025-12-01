@@ -3,13 +3,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /*background-color: #344e41;*/
-  background-color: #dcdcdd;
 
 }
 
 .profile-card {
-  width: 600px;
+  width: 65%;
+  height: 60%;
   background-color: #a9d6eb;
   padding: 3rem;
   border-radius: 12px;

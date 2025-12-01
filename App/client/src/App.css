@@ -7,7 +7,7 @@ html, body, #root {
 
 
 body {
-  background-color: #344e41;
+  background-color: #01161e;
 
   margin:0;
 }
@@ -22,8 +22,8 @@ body {
   background-color: #344e41;
 }
 header, footer {
-  background-color:#7b7b7c ;
-  color:rgb(14, 222, 52);
+  background-color:#01161e ;
+  color:#ecf1f5;
   padding: 1rem;
   height: 10%;
   padding: 0 0 0;
@@ -35,7 +35,7 @@ main {
   background-color: #ffffff;
   margin:0px;
   padding: 0px;
-  background-color: #344e41;
+  background-color: #01161e;
 
 }
 

@@ -36,7 +36,7 @@ const Login = () => {
     setError("");
     try {
       await login({ identifier, password });
-      alert("Logged in successfully!");
+      
       navigate("/dashboard");
     } catch (err) {
       console.error("Login error:", err);

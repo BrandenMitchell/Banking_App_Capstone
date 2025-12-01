@@ -1,5 +1,5 @@
 :root {
-  /* Color Palette + Fonts (kept as you provided) */
+
   --timberwolf: #dad7cd;
   --sage: #a3b18a;
   --fern-green: #588157;
@@ -145,12 +145,12 @@
 
 /* normal hover/active when expanded */
 .sidebar-item:hover {
-  background-color: var(--fern-green);
+  background-color: #0f1e2d;
   color: var(--timberwolf);
 }
 
 .sidebar-item.active {
-  background-color: var(--hunter-green);
+  background-color: #0f1e2d;
   color: var(--timberwolf);
 }
 
