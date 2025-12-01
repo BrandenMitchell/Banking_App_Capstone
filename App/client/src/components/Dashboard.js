@@ -2,6 +2,7 @@ import React, { useState,useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import { AuthContext } from "../context/authContext";
+import { PieChart, Pie, Cell, Legend } from "recharts";
 
 import {
   ResponsiveContainer,
@@ -49,6 +50,16 @@ const Dashboard = () => {
     ],
     3: [{ id: 1, date: "2025-10-25", description: "Payment", amount: -540 }],
   };
+
+  const spendingData = [
+  { name: "Grocery", value: 320 },
+  { name: "Food", value: 180 },
+  { name: "Utilities", value: 240 },
+  { name: "Shopping", value: 400 },
+  { name: "Entertainment", value: 150 },
+  { name: "Health", value: 190 },
+  { name: "Other", value: 95 },
+];
 
   const chartData = transactions[selectedAccount]?.map((tx) => ({
     date: tx.date,
@@ -116,24 +127,36 @@ if (loading) {
         <section className="accounts-section">
           <h3 className="section-title">Active Accounts</h3>
           <div className="accounts-list">
-            {accounts
-              .filter((acc) => acc.type === "Active")
-              .slice(0, 3)
-              .map((acc) => (
-                <div
-                  key={acc.id}
-                  className={`account-card ${
-                    selectedAccount === acc.id ? "selected" : ""
-                  }`}
-                  onClick={() => setSelectedAccount(acc.id)}
-                >
-                  <p className="account-name">{acc.name}</p>
-                  <p className="account-balance">
-                    ${acc.balance.toLocaleString()}
-                  </p>
-                </div>
-              ))}
-          </div>
+  {accounts
+    .filter((acc) => acc.type === "Active")
+    .slice(0, 3)
+    .map((acc) => (
+      <div
+        key={acc.id}
+        className={`account-card ${
+          selectedAccount === acc.id ? "selected" : ""
+        }`}
+        onClick={() => setSelectedAccount(acc.id)}
+      >
+        <p className="account-name">{acc.name}</p>
+        <p className="account-balance">
+          ${acc.balance.toLocaleString()}
+        </p>
+      </div>
+    ))}
+
+  {/* ADD NEW ACCOUNT BUTTON */}
+  <div
+    className="account-card add-account-card"
+  >
+    <p className="add-account-plus">
+  <span>Add Account</span>
+  <span>+</span>
+</p>
+
+  </div>
+</div>
+
         </section>
 
         {/* Chart Section */}
@@ -166,6 +189,44 @@ if (loading) {
             <p>No chart data available.</p>
           )}
         </section>
+
+
+{/* Spending Budget Section */}
+<section className="spending-section">
+  <h3 className="section-title">Spending Budget</h3>
+
+  <div style={{ width: "100%", height: 400 }}>
+    <ResponsiveContainer>
+      <PieChart>
+        <Pie
+          data={spendingData}
+          dataKey="value"
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius={110}
+          label
+        >
+          {spendingData.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={["#81f57fff", "#fe9449ff", "#4089b6ff", "#cfbb4eff", "#DAD7CD", "#d96161ff", "#707070ff"][index % 7]}
+            />
+          ))}
+        </Pie>
+
+        <Legend
+          verticalAlign="bottom"
+          height={35}
+          wrapperStyle={{ color: "#dad7cd" }}
+        />
+      </PieChart>
+    </ResponsiveContainer>
+  </div>
+</section>
+
+
+
 
         {/* Transactions Section */}
         <section className="transactions-section">
@@ -201,3 +262,4 @@ if (loading) {
 };
 
 export default Dashboard;
+
