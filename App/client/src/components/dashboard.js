@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import ExpenseChart, { spendingData } from "../components/ExpenseChart";
 import { AuthContext } from "../context/authContext";
+import axios from "axios";
 
 import {
   ResponsiveContainer,
@@ -27,7 +28,7 @@ const Dashboard = () => {
       phone: "",
     });
   
-  const [selectedAccount, setSelectedAccount] = useState(1);
+  const [selectedAccount, setSelectedAccount] = useState(null);
   const [activePanel, setActivePanel] = useState("overview");
   const [chatMessages, setChatMessages] = useState([
     {
@@ -40,40 +41,97 @@ const Dashboard = () => {
   const [chatLoading, setChatLoading] = useState(false);
   const [chatError, setChatError] = useState(null);
 
-  const accounts = [
-    { id: 1, name: "Checking", balance: 5460.75, type: "Active" },
-    { id: 2, name: "Savings", balance: 12890.25, type: "Active" },
-    { id: 3, name: "Credit Card", balance: 2540.0, type: "Active" },
-    { id: 4, name: "Investments", balance: 8000.0, type: "Closed" },
-  ];
+  // Real data from Plaid
+  const [accounts, setAccounts] = useState([]);
+  const [transactions, setTransactions] = useState({});
+  const [dataLoading, setDataLoading] = useState(true);
+  const [totalBalance, setTotalBalance] = useState(0);
 
-  const transactions = {
-    1: [
-      { id: 1, date: "2025-10-29", description: "Deposit", amount: 2000 },
-      { id: 2, date: "2025-10-28", description: "Withdrawal", amount: -100 },
-      { id: 3, date: "2025-10-27", description: "Deposit", amount: 300 },
-      { id: 4, date: "2025-10-26", description: "Deposit", amount: 500 },
-    ],
-    2: [
-      { id: 1, date: "2025-10-27", description: "Deposit", amount: 5000 },
-      { id: 2, date: "2025-10-26", description: "Withdrawal", amount: -200 },
-      { id: 2, date: "2025-10-26", description: "Withdrawal", amount: 400 }
-    ],
-    3: [{ id: 1, date: "2025-10-25", description: "Payment", amount: -540 },
-      { id: 1, date: "2025-10-29", description: "Deposit", amount: -836 },
-      { id: 2, date: "2025-10-28", description: "Withdrawal", amount: -160 },
-      { id: 3, date: "2025-10-27", description: "Deposit", amount: 340 },
-      { id: 4, date: "2025-10-26", description: "Deposit", amount: 565 },
+  // Fetch accounts from Plaid API
+  const fetchAccounts = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://localhost:5000/api/plaid/accounts', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setAccounts(response.data);
       
-    ],
-  };
+      // Calculate total balance
+      const total = response.data.reduce((sum, acc) => sum + (acc.currentBalance || acc.balance || 0), 0);
+      setTotalBalance(total);
+      
+      // Set first account as selected if none selected
+      if (response.data.length > 0 && !selectedAccount) {
+        setSelectedAccount(response.data[0]._id);
+      }
+      setDataLoading(false);
+    } catch (error) {
+      console.error('Error fetching accounts:', error);
+      setDataLoading(false);
+    }
+  }, [selectedAccount]);
 
-  const chartData = transactions[selectedAccount]?.map((tx) => ({
-    date: tx.date,
-    balance:
-      accounts.find((acc) => acc.id === selectedAccount)?.balance +
-      tx.amount * (Math.random() > 0.5 ? 1 : -1),
-  }));
+  // Fetch transactions for selected account
+  const fetchTransactions = useCallback(async (accountId) => {
+    if (!accountId) return;
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(
+        `http://localhost:5000/api/plaid/transactions/${accountId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setTransactions((prev) => ({
+        ...prev,
+        [accountId]: response.data.transactions,
+      }));
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+    }
+  }, []);
+
+  // Calculate chart data from real transactions
+  const chartData = React.useMemo(() => {
+    if (!selectedAccount || !transactions[selectedAccount]) return [];
+    
+    const txns = transactions[selectedAccount] || [];
+    if (txns.length === 0) return [];
+    
+    const selectedAcc = accounts.find(acc => acc._id === selectedAccount);
+    const currentBalance = selectedAcc?.currentBalance || selectedAcc?.balance || 0;
+    
+    // Sort transactions oldest to newest
+    const sortedTxns = [...txns].sort((a, b) => 
+      new Date(a.date || a.timestamp) - new Date(b.date || b.timestamp)
+    );
+    
+    // Calculate starting balance by working backwards from current balance
+    // Sum all transaction amounts (Plaid: positive = spent, negative = received)
+    const totalChange = sortedTxns.reduce((sum, tx) => sum + tx.amount, 0);
+    let runningBalance = currentBalance + totalChange;
+    
+    // Now work forward through transactions to build the chart
+    const chartPoints = sortedTxns.map((tx) => {
+      // Apply transaction: positive amount = money out, negative = money in
+      runningBalance -= tx.amount;
+      
+      return {
+        date: new Date(tx.date || tx.timestamp).toLocaleDateString('en-US', { 
+          month: 'short', 
+          day: 'numeric' 
+        }),
+        balance: Math.round(runningBalance * 100) / 100,
+      };
+    });
+    
+    return chartPoints;
+  }, [selectedAccount, transactions, accounts]);
   useEffect(() => {
       if (!loading) {
         if (!authUser) {
@@ -84,9 +142,17 @@ const Dashboard = () => {
             email: authUser.email || "",
             phone: authUser.phoneNumber || "",
           });
+          fetchAccounts();
         }
       }
-    }, [authUser, loading, navigate]);
+    }, [authUser, loading, navigate, fetchAccounts]);
+
+  // Fetch transactions when account is selected
+  useEffect(() => {
+    if (selectedAccount) {
+      fetchTransactions(selectedAccount);
+    }
+  }, [selectedAccount, fetchTransactions]);
   const handleLogout = () => {
     logout();
     navigate("/");
@@ -141,7 +207,7 @@ const Dashboard = () => {
       setChatLoading(false);
     }
   };
-if (loading) {
+if (loading || dataLoading) {
   return (
     <div style={{
       display: "flex",
@@ -182,36 +248,45 @@ if (loading) {
 
         {/* Accounts Section */}
         <section className="accounts-section">
-          <h3 className="section-title">Active Accounts</h3>
+          <h3 className="section-title">Active Accounts {accounts.length > 0 && `(Total: $${totalBalance.toLocaleString()})`}</h3>
           <div className="accounts-list">
-  {accounts
-    .filter((acc) => acc.type === "Active")
-    .slice(0, 3)
-    .map((acc) => (
-      <div
-        key={acc.id}
-        className={`account-card ${
-          selectedAccount === acc.id ? "selected" : ""
-        }`}
-        onClick={() => setSelectedAccount(acc.id)}
-      >
-        <p className="account-name">{acc.name}</p>
-        <p className="account-balance">
-          ${acc.balance.toLocaleString()}
-        </p>
-      </div>
-    ))}
-
-  {/* ADD NEW ACCOUNT BUTTON */}
-  <div
-    className="account-card add-account-card"
-  >
-    <p className="add-account-plus">
-  <span>Add Account</span>
-  <span>+</span>
-</p>
-
-  </div>
+  {accounts.length > 0 ? (
+    <>
+      {accounts.map((acc) => (
+        <div
+          key={acc._id}
+          className={`account-card ${
+            selectedAccount === acc._id ? "selected" : ""
+          }`}
+          onClick={() => setSelectedAccount(acc._id)}
+        >
+          <p className="account-name">
+            {acc.institutionName} - {acc.officialName || acc.subtype}
+          </p>
+          <p className="account-balance">
+            ${(acc.currentBalance || acc.balance || 0).toLocaleString()}
+          </p>
+          {acc.mask && (
+            <p style={{ fontSize: '12px', color: '#a98467', marginTop: '4px' }}>
+              ••••{acc.mask}
+            </p>
+          )}
+        </div>
+      ))}
+    </>
+  ) : (
+    <div style={{ 
+      padding: '20px', 
+      textAlign: 'center', 
+      color: '#dad7cd',
+      gridColumn: '1 / -1'
+    }}>
+      <p>No accounts linked yet.</p>
+      <p style={{ fontSize: '14px', marginTop: '8px', color: '#a98467' }}>
+        Go to Accounts page to link your bank account with Plaid.
+      </p>
+    </div>
+  )}
 </div>
 
         </section>
@@ -261,39 +336,45 @@ if (loading) {
         <section className="transactions-section">
           <div className="transactions-header">
             <h3 className="section-title">Recent Transactions</h3>
-            <button className="view-all-btn">View All</button>
+            <button className="view-all-btn" onClick={() => navigate("/accounts")}>View All</button>
           </div>
-          {transactions[selectedAccount] ? (
+          {selectedAccount && transactions[selectedAccount] && transactions[selectedAccount].length > 0 ? (
             <div className="transactions-list">
-              {transactions[selectedAccount].map((tx) => {
-                const isNegative = tx.amount < 0;
-                const transactionType = tx.description.toLowerCase();
+              {transactions[selectedAccount].slice(0, 5).map((tx) => {
+                // Plaid: positive amount = money out, negative = money in
+                const isNegative = tx.amount > 0; // spending/withdrawal
+                const transactionName = (tx.merchantName || tx.name || tx.description || 'Transaction').toLowerCase();
                 let iconType = "transfer";
                 
-                if (transactionType.includes("deposit")) {
+                if (transactionName.includes("deposit") || transactionName.includes("credit")) {
                   iconType = "deposit";
-                } else if (transactionType.includes("withdrawal")) {
+                } else if (transactionName.includes("withdrawal") || transactionName.includes("atm")) {
                   iconType = "withdrawal";
-                } else if (transactionType.includes("payment")) {
+                } else if (transactionName.includes("payment") || transactionName.includes("purchase")) {
                   iconType = "payment";
                 }
 
                 return (
-                  <div key={tx.id} className="transaction-item">
+                  <div key={tx._id} className="transaction-item">
                     <div className="transaction-icon">
                       <span className={`icon-circle ${isNegative ? "negative-icon" : "positive-icon"} icon-${iconType}`}></span>
                     </div>
                     <div className="transaction-details">
-                      <p className="transaction-description">{tx.description}</p>
-                      <p className="transaction-date">{new Date(tx.date).toLocaleDateString('en-US', { 
-                        month: 'short', 
-                        day: 'numeric', 
-                        year: 'numeric' 
-                      })}</p>
+                      <p className="transaction-description">
+                        {tx.merchantName || tx.name || tx.description || 'Transaction'}
+                      </p>
+                      <p className="transaction-date">
+                        {new Date(tx.date || tx.timestamp).toLocaleDateString('en-US', { 
+                          month: 'short', 
+                          day: 'numeric', 
+                          year: 'numeric' 
+                        })}
+                        {tx.category && ` • ${tx.category}`}
+                      </p>
                     </div>
                     <div className="transaction-amount">
                       <p className={`amount ${isNegative ? "negative" : "positive"}`}>
-                        {isNegative ? "-" : "+"}${Math.abs(tx.amount).toLocaleString()}
+                        {isNegative ? "-" : "+"}${Math.abs(tx.amount).toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -302,7 +383,13 @@ if (loading) {
             </div>
           ) : (
             <div className="no-transactions">
-              <p>No transactions available.</p>
+              <p>
+                {!selectedAccount 
+                  ? "Select an account to view transactions." 
+                  : accounts.length === 0
+                  ? "Link a bank account to see your transactions."
+                  : "No transactions available for this account."}
+              </p>
             </div>
           )}
         </section>
@@ -345,4 +432,5 @@ if (loading) {
 };
 
 export default Dashboard;
+
 
