@@ -55,6 +55,26 @@ npm run dev #runs the nodemon server (auto refresh package)
 npm start # runs the server normally
 ```
 
+### Plaid API Integration Setup
+This application now includes Plaid API integration for importing real bank account data. See [PLAID_SETUP.md](./PLAID_SETUP.md) for detailed setup instructions.
+
+**Quick Start:**
+1. Sign up for a free Plaid account at https://dashboard.plaid.com/signup
+2. Get your Client ID and Secret from the Plaid Dashboard
+3. Create a `.env` file in the `App/server` directory with:
+```env
+PLAID_CLIENT_ID=your_client_id
+PLAID_SECRET=your_secret
+PLAID_ENV=sandbox
+```
+4. Restart the server
+5. Use the "Link Bank Account" button on the Accounts page
+
+**Sandbox Test Credentials:**
+- Username: `user_good`
+- Password: `pass_good`
+- Institution: Any test bank (e.g., "First Platypus Bank")
+
 ### GIT & GitHub
 ----I respect your decision to use either Git CMD or Github desktop but either way we will be using git for version control, for the teams convenience here are some basic commands and their usecases
 git clone <repo-url>

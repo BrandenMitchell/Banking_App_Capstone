@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import PlaidLink from "../components/PlaidLink";
 import { AuthContext } from "../context/authContext";
+import axios from "axios";
 import "../css/accounts.css";
 import "../css/sidebar.css";
 
@@ -15,38 +17,84 @@ const AccountsPage = () => {
     phone: "",
   });
 
-  const [selectedAccount, setSelectedAccount] = useState(1);
-  const [accounts, setAccounts] = useState([
-    { id: 1, name: "Checking", balance: 5460.75, type: "Active" },
-    { id: 2, name: "Savings", balance: 12890.25, type: "Active" },
-    { id: 3, name: "Credit Card", balance: 2540.0, type: "Active" },
-    { id: 4, name: "Investments", balance: 8000.0, type: "Closed" },
-  ]);
+  const [selectedAccount, setSelectedAccount] = useState(null);
+  const [accounts, setAccounts] = useState([]);
+  const [transactions, setTransactions] = useState({});
 
   const [showPopup, setShowPopup] = useState(false);
   const [recipientAccount, setRecipientAccount] = useState("");
   const [amount, setAmount] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [syncing, setSyncing] = useState(false);
 
-  const transactions = {
-    1: [
-      { id: 1, date: "2025-10-29", description: "Deposit", amount: 2000 },
-      { id: 2, date: "2025-10-28", description: "Withdrawal", amount: -100 },
-      { id: 3, date: "2025-10-27", description: "Deposit", amount: 300 },
-      { id: 4, date: "2025-10-26", description: "Deposit", amount: 500 },
-    ],
-    2: [
-      { id: 1, date: "2025-10-27", description: "Deposit", amount: 5000 },
-      { id: 2, date: "2025-10-26", description: "Withdrawal", amount: -200 },
-      { id: 2, date: "2025-10-26", description: "Withdrawal", amount: 400 }
-    ],
-    3: [{ id: 1, date: "2025-10-25", description: "Payment", amount: -540 },
-      { id: 1, date: "2025-10-29", description: "Deposit", amount: -836 },
-      { id: 2, date: "2025-10-28", description: "Withdrawal", amount: -160 },
-      { id: 3, date: "2025-10-27", description: "Deposit", amount: 340 },
-      { id: 4, date: "2025-10-26", description: "Deposit", amount: 565 },
-      
-    ],
+  // Fetch accounts from backend
+  const fetchAccounts = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://localhost:5000/api/plaid/accounts', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setAccounts(response.data);
+      if (response.data.length > 0 && !selectedAccount) {
+        setSelectedAccount(response.data[0]._id);
+      }
+    } catch (error) {
+      console.error('Error fetching accounts:', error);
+    }
+  }, [selectedAccount]);
+
+  // Fetch transactions for selected account
+  const fetchTransactions = useCallback(async (accountId) => {
+    if (!accountId) return;
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(
+        `http://localhost:5000/api/plaid/transactions/${accountId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setTransactions((prev) => ({
+        ...prev,
+        [accountId]: response.data.transactions,
+      }));
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+    }
+  }, []);
+
+  // Sync accounts with Plaid
+  const handleSync = async () => {
+    setSyncing(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        'http://localhost:5000/api/plaid/sync_accounts',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setAccounts(response.data.accounts);
+      setToastMessage('Accounts synced successfully');
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2000);
+    } catch (error) {
+      console.error('Error syncing accounts:', error);
+      setToastMessage('Failed to sync accounts');
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2000);
+    } finally {
+      setSyncing(false);
+    }
   };
 
   useEffect(() => {
@@ -59,9 +107,17 @@ const AccountsPage = () => {
           email: authUser.email || "",
           phone: authUser.phoneNumber || "",
         });
+        fetchAccounts();
       }
     }
-  }, [authUser, loading, navigate]);
+  }, [authUser, loading, navigate, fetchAccounts]);
+
+  // Fetch transactions when account is selected
+  useEffect(() => {
+    if (selectedAccount) {
+      fetchTransactions(selectedAccount);
+    }
+  }, [selectedAccount]);
 
   const handleLogout = () => {
     logout();
@@ -74,10 +130,10 @@ const AccountsPage = () => {
 
     setAccounts((prev) =>
       prev.map((acc) => {
-        if (acc.id === selectedAccount) {
+        if (acc._id === selectedAccount) {
           return { ...acc, balance: acc.balance - amt };
         }
-        if (acc.id === parseInt(recipientAccount)) {
+        if (acc._id === recipientAccount) {
           return { ...acc, balance: acc.balance + amt };
         }
         return acc;
@@ -88,8 +144,16 @@ const AccountsPage = () => {
     setAmount("");
     setRecipientAccount("");
 
+    setToastMessage("Money sent");
     setShowToast(true);
     setTimeout(() => setShowToast(false), 2000);
+  };
+
+  const handlePlaidSuccess = (newAccounts) => {
+    setToastMessage(`Successfully linked ${newAccounts.length} account(s)`);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
+    fetchAccounts(); // Refresh accounts list
   };
 
   if (loading) {
@@ -127,58 +191,100 @@ const AccountsPage = () => {
         </header>
 
         <section className="accounts-section">
-          <h3 className="section-title">All Accounts</h3>
-          <div className="accounts-list spacious">
-            {accounts.map((acc) => (
-              <div
-                key={acc.id}
-                className={`account-card ${
-                  selectedAccount === acc.id ? "selected" : ""
-                }`}
-                onClick={() => setSelectedAccount(acc.id)}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <h3 className="section-title">All Accounts</h3>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <PlaidLink onSuccess={handlePlaidSuccess} />
+              <button
+                onClick={handleSync}
+                disabled={syncing || accounts.length === 0}
+                style={{
+                  backgroundColor: '#3a5a40',
+                  color: '#fff',
+                  padding: '12px 24px',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  cursor: syncing || accounts.length === 0 ? 'not-allowed' : 'pointer',
+                  opacity: syncing || accounts.length === 0 ? 0.6 : 1,
+                }}
               >
-                <p className="account-name">{acc.name}</p>
-                <p className="account-balance">
-                  ${acc.balance.toLocaleString()}
-                </p>
-                <p className="account-type">{acc.type}</p>
-                <button
-                  className="transfer-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowPopup(true);
-                  }}
-                >
-                  Transfer Money
-                </button>
-              </div>
-            ))}
+                {syncing ? 'Syncing...' : 'Sync Accounts'}
+              </button>
+            </div>
           </div>
+          
+          {accounts.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#dad7cd' }}>
+              <p>No accounts linked yet. Click "Link Bank Account" to get started.</p>
+            </div>
+          ) : (
+            <div className="accounts-list spacious">
+              {accounts.map((acc) => (
+                <div
+                  key={acc._id}
+                  className={`account-card ${
+                    selectedAccount === acc._id ? "selected" : ""
+                  }`}
+                  onClick={() => setSelectedAccount(acc._id)}
+                >
+                  <p className="account-name">
+                    {acc.institutionName} - {acc.officialName || acc.subtype}
+                  </p>
+                  <p className="account-balance">
+                    ${(acc.currentBalance || acc.balance || 0).toLocaleString()}
+                  </p>
+                  <p className="account-type">
+                    {acc.mask ? `••••${acc.mask}` : acc.accountType}
+                  </p>
+                  <button
+                    className="transfer-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowPopup(true);
+                    }}
+                  >
+                    Transfer Money
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
         <section className="transactions-section">
           <h3 className="section-title">Transaction History</h3>
-          {transactions[selectedAccount] ? (
+          {selectedAccount && transactions[selectedAccount] && transactions[selectedAccount].length > 0 ? (
             <table className="transactions-table large">
               <thead>
                 <tr>
                   <th>Date</th>
                   <th>Description</th>
+                  <th>Category</th>
                   <th>Amount</th>
                 </tr>
               </thead>
               <tbody>
                 {transactions[selectedAccount].map((tx) => (
-                  <tr key={tx.id}>
-                    <td>{tx.date}</td>
-                    <td>{tx.description}</td>
-                    <td className={tx.amount < 0 ? "negative" : "positive"}>
-                      ${Math.abs(tx.amount).toLocaleString()}
+                  <tr key={tx._id}>
+                    <td>{new Date(tx.date || tx.timestamp).toLocaleDateString()}</td>
+                    <td>
+                      {tx.merchantName || tx.name || tx.description}
+                      {tx.pending && <span style={{ color: '#a98467', marginLeft: '8px' }}>(Pending)</span>}
+                    </td>
+                    <td>{tx.category || 'Other'}</td>
+                    <td className={tx.amount < 0 ? "positive" : "negative"}>
+                      ${Math.abs(tx.amount).toFixed(2)}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          ) : selectedAccount ? (
+            <div style={{ textAlign: 'center', padding: '20px', color: '#dad7cd' }}>
+              <p>No transactions available for this account.</p>
+            </div>
           ) : null}
         </section>
       </main>
@@ -196,10 +302,10 @@ const AccountsPage = () => {
             >
               <option value="">Select Account</option>
               {accounts
-                .filter((a) => a.id !== selectedAccount)
+                .filter((a) => a._id !== selectedAccount)
                 .map((a) => (
-                  <option key={a.id} value={a.id}>
-                    {a.name}
+                  <option key={a._id} value={a._id}>
+                    {a.institutionName} - {a.officialName || a.subtype}
                   </option>
                 ))}
             </select>
@@ -222,7 +328,7 @@ const AccountsPage = () => {
         </div>
       )}
 
-      {showToast && <div className="toast show">Money sent</div>}
+      {showToast && <div className="toast show">{toastMessage}</div>}
     </div>
   );
 };

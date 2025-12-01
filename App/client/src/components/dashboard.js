@@ -259,30 +259,51 @@ if (loading) {
 
         {/* Transactions Section */}
         <section className="transactions-section">
-          <h3 className="section-title">Recent Transactions</h3>
+          <div className="transactions-header">
+            <h3 className="section-title">Recent Transactions</h3>
+            <button className="view-all-btn">View All</button>
+          </div>
           {transactions[selectedAccount] ? (
-            <table className="transactions-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Description</th>
-                  <th>Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                {transactions[selectedAccount].map((tx) => (
-                  <tr key={tx.id}>
-                    <td>{tx.date}</td>
-                    <td>{tx.description}</td>
-                    <td className={tx.amount < 0 ? "negative" : "positive"}>
-                      ${Math.abs(tx.amount).toLocaleString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="transactions-list">
+              {transactions[selectedAccount].map((tx) => {
+                const isNegative = tx.amount < 0;
+                const transactionType = tx.description.toLowerCase();
+                let iconType = "transfer";
+                
+                if (transactionType.includes("deposit")) {
+                  iconType = "deposit";
+                } else if (transactionType.includes("withdrawal")) {
+                  iconType = "withdrawal";
+                } else if (transactionType.includes("payment")) {
+                  iconType = "payment";
+                }
+
+                return (
+                  <div key={tx.id} className="transaction-item">
+                    <div className="transaction-icon">
+                      <span className={`icon-circle ${isNegative ? "negative-icon" : "positive-icon"} icon-${iconType}`}></span>
+                    </div>
+                    <div className="transaction-details">
+                      <p className="transaction-description">{tx.description}</p>
+                      <p className="transaction-date">{new Date(tx.date).toLocaleDateString('en-US', { 
+                        month: 'short', 
+                        day: 'numeric', 
+                        year: 'numeric' 
+                      })}</p>
+                    </div>
+                    <div className="transaction-amount">
+                      <p className={`amount ${isNegative ? "negative" : "positive"}`}>
+                        {isNegative ? "-" : "+"}${Math.abs(tx.amount).toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           ) : (
-            <p>No transactions available.</p>
+            <div className="no-transactions">
+              <p>No transactions available.</p>
+            </div>
           )}
         </section>
 

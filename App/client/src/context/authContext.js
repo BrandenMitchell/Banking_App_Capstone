@@ -58,13 +58,15 @@ export const AuthProvider = ({ children }) => {
     setAccessToken(data.accessToken);
     setUser({ id: data.id, username: data.username, email: data.email });
 
-    // Save refresh token in localStorage
+    // Save tokens in localStorage
+    localStorage.setItem("token", data.accessToken);
     localStorage.setItem("refreshToken", data.refreshToken);
   };
 
   const logout = () => {
     setUser(null);
     setAccessToken(null);
+    localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
   };
 
@@ -82,6 +84,7 @@ export const AuthProvider = ({ children }) => {
     if (!res.ok) throw new Error(data.message || "Refresh failed");
 
     setAccessToken(data.accessToken);
+    localStorage.setItem("token", data.accessToken);
   };
 
   return (

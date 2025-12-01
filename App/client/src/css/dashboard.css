@@ -132,30 +132,181 @@ html, body {
 /* === TRANSACTIONS === */
 .transactions-section {
   margin-top: 32px;
+  background: linear-gradient(135deg, #0a4a5a 0%, #023047 100%);
+  border-radius: 12px;
+  padding: 18px 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(148, 210, 189, 0.3);
 }
 
-.transactions-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 18px;
-  color: var(--text-light);
+.transactions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 }
-.transactions-table th,
-.transactions-table td {
-  padding: 12px 10px;
-  border-bottom: 1px solid rgba(148, 210, 189, 0.2);
+
+.view-all-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 155, 84, 0.5);
+  color: #ff9b54;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: var(--font-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-all-btn:hover {
+  background: rgba(255, 155, 84, 0.1);
+  border-color: #ff9b54;
+  transform: translateY(-1px);
+}
+
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  background: rgba(0, 21, 36, 0.4);
+  border-radius: 10px;
+  border: 1px solid rgba(148, 210, 189, 0.2);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.transaction-item:hover {
+  background: rgba(0, 21, 36, 0.6);
+  border-color: rgba(255, 155, 84, 0.4);
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(255, 155, 84, 0.2);
+}
+
+.transaction-icon {
+  flex-shrink: 0;
+}
+
+.icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: transform 0.2s ease;
+  position: relative;
+}
+
+.transaction-item:hover .icon-circle {
+  transform: scale(1.1);
+}
+
+.icon-circle.positive-icon {
+  background: linear-gradient(135deg, rgba(42, 157, 143, 0.3), rgba(42, 157, 143, 0.15));
+  border: 2px solid rgba(42, 157, 143, 0.5);
+}
+
+.icon-circle.negative-icon {
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(255, 107, 107, 0.15));
+  border: 2px solid rgba(255, 107, 107, 0.5);
+}
+
+/* Icon Styles */
+.icon-circle::before {
+  content: '';
+  position: absolute;
+  font-weight: 900;
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+}
+
+/* Positive icons - green */
+.icon-circle.positive-icon::before {
+  color: #2a9d8f;
+}
+
+/* Negative icons - red */
+.icon-circle.negative-icon::before {
+  color: #ff6b6b;
+}
+
+/* Deposit Icon - Down Arrow */
+.icon-circle.icon-deposit::before {
+  content: '↓';
+}
+
+/* Withdrawal Icon - Up Arrow */
+.icon-circle.icon-withdrawal::before {
+  content: '↑';
+}
+
+/* Payment Icon - Dollar Sign */
+.icon-circle.icon-payment::before {
+  content: '$';
+}
+
+/* Transfer Icon - Exchange Arrows */
+.icon-circle.icon-transfer::before {
+  content: '⇄';
+}
+
+.transaction-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.transaction-description {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.transaction-date {
+  font-size: var(--font-sm);
+  color: #94d2bd;
+  margin: 0;
+}
+
+.transaction-amount {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.transaction-amount .amount {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  margin: 0;
+}
+
+.transaction-amount .amount.positive {
+  color: #2a9d8f;
+}
+
+.transaction-amount .amount.negative {
+  color: #ff6b6b;
+}
+
+.no-transactions {
+  text-align: center;
+  padding: 40px 20px;
+  color: #94d2bd;
   font-size: var(--font-md);
 }
-.transactions-table th {
-  font-weight: 600;
-  text-align: left;
-  color: #ffecd1;
+
+.no-transactions p {
+  margin: 0;
 }
-.transactions-table td {
-  color: #ffffff;
-}
-.transactions-table td.negative { color: #ff6b6b; }
-.transactions-table td.positive { color: #2a9d8f; }
 .chart-section {
   margin-top: 28px;
   background: linear-gradient(135deg, #0a4a5a 0%, #023047 100%);
@@ -178,19 +329,6 @@ html, body {
 
 .recharts-tooltip-wrapper {
   font-size: var(--font-xs);
-}
-
-.transactions-section {
-  margin-top: 20px;
-}
-
-.transactions-table {
-  font-size: var(--font-sm);
-}
-
-.transactions-table th,
-.transactions-table td {
-  padding: 6px 10px;
 }
 .chat-section {
   margin-top: 32px;
