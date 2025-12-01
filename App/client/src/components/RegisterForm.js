@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/authContext';
 
 const RegisterForm = () => {
+  const { login } = useContext(AuthContext); // We can auto-login after registration
   const [formData, setFormData] = useState({
     fullName: '',
     username: '',
@@ -16,20 +18,22 @@ const RegisterForm = () => {
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Update field values
+  // Update form fields
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Form submission
+  // Validate password strength
+  const validatePassword = (pwd) => {
+    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$/;
+    return regex.test(pwd);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Front-end field validation
+    // Check all fields are filled
     for (let key in formData) {
       if (!formData[key]) {
         setMessage(`Please fill out the ${key} field.`);
@@ -38,37 +42,50 @@ const RegisterForm = () => {
       }
     }
 
+    if (!validatePassword(formData.password)) {
+      setMessage('Password must be at least 15 characters long and include a number and a special character.');
+      setIsSuccess(false);
+      return;
+    }
+
     try {
-      const response = await fetch('http://localhost:3001/api/users/', {
+      const res = await fetch('http://localhost:3001/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      const data = await res.json();
 
-      if (response.ok) {
-        setIsSuccess(true);
-        setMessage('Registration successful!');
-        setFormData({
-          fullName: '',
-          username: '',
-          email: '',
-          password: '',
-          phoneNumber: '',
-          street: '',
-          city: '',
-          state: '',
-          zip: ''
-        });
-      } else {
+      if (!res.ok) {
+        setMessage(data.message || 'Registration failed');
         setIsSuccess(false);
-        setMessage(data.errors || 'Registration failed');
+        return;
       }
-    } catch (error) {
-      setIsSuccess(false);
+
+      setIsSuccess(true);
+      setMessage('Registration successful! Logging in...');
+
+      // Auto-login user after registration
+      await login({ username: formData.username, email: formData.email, password: formData.password });
+
+      // Clear form
+      setFormData({
+        fullName: '',
+        username: '',
+        email: '',
+        password: '',
+        phoneNumber: '',
+        street: '',
+        city: '',
+        state: '',
+        zip: ''
+      });
+
+    } catch (err) {
+      console.error('Registration error:', err);
       setMessage('Network error or server unavailable');
-      console.error('Error during registration:', error);
+      setIsSuccess(false);
     }
   };
 
@@ -79,116 +96,55 @@ const RegisterForm = () => {
         {/* Full Name */}
         <div style={styles.formGroup}>
           <label style={styles.label}>Full Name</label>
-          <input
-            type="text"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            style={styles.input}
-            placeholder="John Doe"
-          />
+          <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} style={styles.input} placeholder="John Doe"/>
         </div>
 
         {/* Username */}
         <div style={styles.formGroup}>
           <label style={styles.label}>Username</label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            style={styles.input}
-            placeholder="johndoe123"
-          />
+          <input type="text" name="username" value={formData.username} onChange={handleChange} style={styles.input} placeholder="johndoe123"/>
         </div>
 
         {/* Email */}
         <div style={styles.formGroup}>
           <label style={styles.label}>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            style={styles.input}
-            placeholder="you@example.com"
-          />
+          <input type="email" name="email" value={formData.email} onChange={handleChange} style={styles.input} placeholder="you@example.com"/>
         </div>
 
         {/* Password */}
         <div style={styles.formGroup}>
           <label style={styles.label}>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            style={styles.input}
-            placeholder="••••••••"
-          />
+          <input type="password" name="password" value={formData.password} onChange={handleChange} style={styles.input} placeholder="••••••••"/>
+          <div className="form-text small-text">
+            Must be 15+ characters, include a number and special character.
+          </div>
         </div>
 
         {/* Phone */}
         <div style={styles.formGroup}>
           <label style={styles.label}>Phone Number</label>
-          <input
-            type="text"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            style={styles.input}
-            placeholder="+1 (555) 123-4567"
-          />
+          <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} style={styles.input} placeholder="+1 (555) 123-4567"/>
         </div>
 
-        {/* Address Section */}
+        {/* Address */}
         <h3 style={{ marginTop: '25px', color: '#1a237e' }}>Address Information</h3>
-
         <div style={styles.formGroup}>
           <label style={styles.label}>Street</label>
-          <input
-            type="text"
-            name="street"
-            value={formData.street}
-            onChange={handleChange}
-            style={styles.input}
-            placeholder="123 Ocean Avenue"
-          />
+          <input type="text" name="street" value={formData.street} onChange={handleChange} style={styles.input} placeholder="123 Ocean Avenue"/>
         </div>
 
         <div style={styles.addressRow}>
           <div style={{ ...styles.formGroup, flex: 2 }}>
             <label style={styles.label}>City</label>
-            <input
-              type="text"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              style={styles.input}
-              placeholder="Neptune City"
-            />
+            <input type="text" name="city" value={formData.city} onChange={handleChange} style={styles.input} placeholder="Neptune City"/>
           </div>
           <div style={{ ...styles.formGroup, flex: 1, marginLeft: '10px' }}>
             <label style={styles.label}>State</label>
-            <input
-              type="text"
-              name="state"
-              value={formData.state}
-              onChange={handleChange}
-              style={styles.input}
-              placeholder="NJ"
-            />
+            <input type="text" name="state" value={formData.state} onChange={handleChange} style={styles.input} placeholder="NJ"/>
           </div>
           <div style={{ ...styles.formGroup, flex: 1, marginLeft: '10px' }}>
             <label style={styles.label}>ZIP</label>
-            <input
-              type="text"
-              name="zip"
-              value={formData.zip}
-              onChange={handleChange}
-              style={styles.input}
-              placeholder="07753"
-            />
+            <input type="text" name="zip" value={formData.zip} onChange={handleChange} style={styles.input} placeholder="07753"/>
           </div>
         </div>
 
@@ -196,7 +152,7 @@ const RegisterForm = () => {
         <button type="submit" style={styles.button}>Register</button>
       </form>
 
-      {/* Status Message */}
+      {/* Message */}
       {message && (
         <p style={{ ...styles.message, color: isSuccess ? 'green' : 'red' }}>
           {message}

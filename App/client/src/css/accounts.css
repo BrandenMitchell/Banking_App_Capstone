@@ -1,0 +1,169 @@
+:root {
+  --timberwolf: #caf0f8;
+  --sage: #3b6389;
+  --fern-green: #67c3dc;
+  --hunter-green: #023e8a;
+  --brunswick-green: #0f1e2d;
+
+  --bg-main: var(--brunswick-green);
+  --bg-card: var(--hunter-green);
+  --text-light: var(--timberwolf);
+  --accent: var(--fern-green);
+  --hover: var(--sage);
+
+  --font-xs: 12px;
+  --font-sm: 14px;
+  --font-md: 16px;
+  --font-lg: 18px;
+  --font-xl: 22px;
+  --font-xxl: 28px;
+  --line-height: 1.4;
+}
+
+/* === GLOBAL === */
+.accounts-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--bg-main);
+  overflow: hidden;
+}
+
+.accounts-main {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background-color: var(--bg-main);
+  color: var(--text-light);
+}
+
+/* === HEADER === */
+.accounts-header {
+  margin-bottom: 24px;
+  background-color: var(--hunter-green);
+  border-radius: 10px;
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.accounts-title {
+  font-size: var(--font-xxl);
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  color: var(--text-light);
+}
+.accounts-subtitle {
+  font-size: var(--font-lg);
+  color: var(--hover);
+}
+
+/* === ACCOUNTS SECTION === */
+.accounts-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.account-card {
+  background-color: var(--bg-card);
+  color: var(--text-light);
+  padding: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 180px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.account-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  background-color: var(--hunter-green);
+}
+
+.account-card.selected {
+  border: 2px solid var(--accent);
+}
+
+.account-name {
+  font-size: var(--font-lg);
+  margin: 0 0 6px 0;
+  font-weight: 500;
+}
+.account-balance {
+  font-size: var(--font-xl);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.account-type {
+  font-size: var(--font-sm);
+  margin-bottom: 12px;
+  color: var(--hover);
+}
+
+/* === TRANSFER BUTTON === */
+.transfer-btn {
+  background: var(--accent);
+  color: var(--text-light);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: var(--font-sm);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.transfer-btn:hover {
+  background: var(--sage);
+}
+
+/* === TRANSACTIONS SECTION === */
+.transactions-section {
+  margin-top: 32px;
+}
+
+.transactions-section h3 {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Table now has both horizontal and vertical spacing */
+.transactions-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 8px 8px; /* horizontal and vertical spacing */
+  font-size: var(--font-sm);
+}
+
+.transactions-table th {
+  text-align: left;
+  padding: 10px;
+  font-weight: 600;
+  color: var(--hover);
+  background-color: transparent;
+}
+
+.transactions-table td {
+  padding: 12px 10px;
+  background-color: var(--bg-card);
+  border-radius: 8px;
+}
+
+.transactions-table td.negative { color: #ff6b6b; }
+.transactions-table td.positive { color: var(--accent); }
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .account-name { font-size: 16px; }
+  .account-balance { font-size: 18px; }
+  .transactions-table th, .transactions-table td { font-size: 14px; }
+  .accounts-title { font-size: 24px; }
+}
