@@ -22,8 +22,8 @@
 /* ---------- Sidebar container ---------- */
 .sidebar {
   font-family: var(--font-family);
-  background-color: var(--sidebar-surface);
-  color: var(--cream);
+  background: linear-gradient(180deg, #023047 0%, #0a4a5a 100%);
+  color: #ffffff;
   width: var(--sidebar-width);
   height: 100vh;
   display: flex;
@@ -34,6 +34,7 @@
   overflow: hidden;
   position: relative;
   font-size: var(--font-size-base);
+  border-right: 2px solid rgba(255, 155, 84, 0.3);
 }
 
 .sidebar.collapsed {
@@ -46,8 +47,8 @@
   top: 50%;
   right: -14px;                   /* slightly outside sidebar edge */
   transform: translateY(-50%);    /* vertically centered */
-  background-color: var(--teal);
-  color: var(--cream);
+  background: linear-gradient(135deg, #ff9b54 0%, #0a9396 100%);
+  color: #ffffff;
   border: none;
   border-radius: 50%;
   width: 34px;
@@ -55,8 +56,8 @@
   font-size: calc(var(--font-size-large) - 2px);
   cursor: pointer;
   z-index: 30;                    /* sit above everything */
-  transition: transform var(--transition-fast), background-color var(--transition-fast);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  transition: transform var(--transition-fast), background var(--transition-fast);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,8 +65,9 @@
 
 /* small hover/press affordance without moving its baseline */
 .collapse-btn:hover {
-  background-color: var(--orange);
-  transform: translateY(-50%) scale(1.04);
+  background: linear-gradient(135deg, #0a9396 0%, #ff9b54 100%);
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 8px 24px rgba(255, 155, 84, 0.5);
 }
 
 /* rotate icon when collapsed (if you use an icon span/element inside) */
@@ -94,8 +96,8 @@
 }
 
 .brand-short {
-  background: var(--cream);
-  color: var(--navy);
+  background: linear-gradient(135deg, #ff9b54 0%, #0a9396 100%);
+  color: #ffffff;
   border-radius: 8px;
   padding: 6px 10px;
   font-weight: var(--font-weight-bold);
@@ -107,6 +109,7 @@
   font-size: var(--font-size-base);
   opacity: 1;
   transition: opacity var(--transition-slow) 0.3s;
+  color: #ffffff;
 }
 
 /* hide brand text instantly when collapsed */
@@ -136,22 +139,25 @@
   padding: 10px 14px;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color var(--transition-fast), color var(--transition-fast);
+  transition: background var(--transition-fast), color var(--transition-fast), transform 0.2s ease;
   display: flex;
   align-items: center;
   gap: 10px;
   font-weight: var(--font-weight-regular);
+  color: #ffffff;
 }
 
 /* normal hover/active when expanded */
 .sidebar-item:hover {
-  background-color: #0f1e2d;
-  color: var(--timberwolf);
+  background: rgba(255, 155, 84, 0.2);
+  color: #ffffff;
+  transform: translateX(4px);
 }
 
 .sidebar-item.active {
-  background-color: #0f1e2d;
-  color: var(--timberwolf);
+  background: linear-gradient(135deg, rgba(255, 155, 84, 0.3) 0%, rgba(10, 147, 150, 0.3) 100%);
+  color: #ffffff;
+  border-left: 3px solid #ff9b54;
 }
 
 /* ---------- Hide text when collapsed (but keep icon/CB visible) ---------- */
@@ -176,8 +182,10 @@
 .sidebar.collapsed .sidebar-item:hover,
 .sidebar.collapsed .sidebar-item.active {
   background-color: transparent !important;
-  color: var(--cream) !important;
+  color: #ffffff !important;
   box-shadow: none !important;
+  border-left: none !important;
+  transform: none !important;
 }
 
 /* same for logout button area */
@@ -185,7 +193,7 @@
 .sidebar.collapsed .logout-btn:hover,
 .sidebar.collapsed .logout-btn .nav-text {
   background-color: transparent !important;
-  color: var(--cream) !important;
+  color: #ffffff !important;
   box-shadow: none !important;
   opacity: 0;            /* hide text portion */
   width: 0;
@@ -202,19 +210,21 @@
 .logout-btn {
   background: none;
   border: none;
-  color: var(--cream);
+  color: #ffffff;
   font-weight: var(--font-weight-bold);
   width: 100%;
   text-align: left;
   padding: 10px 14px;
   cursor: pointer;
   font-size: var(--font-size-base);
-  transition: background-color var(--transition-fast), color var(--transition-fast);
+  transition: background var(--transition-fast), color var(--transition-fast), transform 0.2s ease;
+  border-radius: 8px;
 }
 
 .logout-btn:hover {
-  background-color: rgba(21, 97, 109, 0.4);
-  color: var(--cream);
+  background: rgba(214, 40, 40, 0.3);
+  color: #ffffff;
+  transform: translateX(4px);
 }
 
 /* restore text on expand with delay */

@@ -101,7 +101,7 @@ const Login = () => {
                     top: "50%",
                     transform: "translateY(-50%)",
                     cursor: "pointer",
-                    color: "#ff7d00",
+                    color: "#ff9b54",
                     fontSize: "1.1rem",
                   }}
                   title={showPassword ? "Hide Password" : "Show Password"}

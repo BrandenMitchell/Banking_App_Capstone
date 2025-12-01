@@ -3,23 +3,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 .profile-card {
   width: 65%;
   height: 60%;
-  background-color: #a9d6eb;
+  background: linear-gradient(135deg, #0a4a5a 0%, #023047 100%);
   padding: 3rem;
   border-radius: 18px;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
-  border: 1px solid rgba(255, 236, 209, 0.3);
+  border: 2px solid rgba(255, 155, 84, 0.3);
 }
 
 .profile-row {
   padding: 0.5rem 0;
   font-size: 1rem;
-  color: var(--color-cream);
+  color: #ffffff;
 }
 
 .edit-icon {
@@ -28,51 +27,53 @@
 }
 
 .logout-btn {
-  background-color: var(--color-rust);
-  color: var(--color-cream);
-  font-weight: 500;
+  background-color: #d62828;
+  color: #ffffff;
+  font-weight: 600;
   border-radius: 8px;
   transition: 0.2s;
   border: none;
 }
 
 .logout-btn:hover {
-  filter: brightness(85%);
+  background-color: #b91e1e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(214, 40, 40, 0.4);
 }
 
 /* Account section */
 .accounts-section {
   margin-top: 1.5rem;
-  color: var(--color-cream);
+  color: #ffffff;
 }
 
 .account-list {
-  background: rgba(21, 97, 109, 0.25);
+  background: rgba(0, 21, 36, 0.5);
   border-radius: 14px;
   padding: 1.25rem;
   box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 236, 209, 0.2);
+  border: 1px solid rgba(148, 210, 189, 0.3);
 }
 
 .account-box {
-  background-color: rgba(255, 236, 209, 0.08);
+  background: linear-gradient(135deg, #023047 0%, #0a4a5a 100%);
   border-radius: 12px;
   padding: 1.25rem;
   margin-bottom: 1.2rem;
-  border: 1px solid rgba(255, 236, 209, 0.35);
+  border: 1px solid rgba(148, 210, 189, 0.3);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
 }
 
 .account-box p {
   margin: 0.3rem 0;
   font-size: 0.95rem;
-  color: rgba(255, 236, 209, 0.95);
+  color: #ffffff;
 }
 
 .delete-account-btn {
-  background-color: var(--color-rust);
-  color: var(--color-cream);
-  font-weight: 500;
+  background-color: #d62828;
+  color: #ffffff;
+  font-weight: 600;
   border-radius: 8px;
   transition: 0.2s;
   margin-top: 0.5rem;
@@ -81,17 +82,18 @@
 }
 
 .delete-account-btn:hover {
-  filter: brightness(85%);
-  color: #ffe4e1
+  background-color: #b91e1e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(214, 40, 40, 0.4);
 }
 
 .delete-confirmation{
-  background: rgba(255, 236, 209, 0.1);
-  border: 1px solid rgba(255, 125, 0, 0.6);
+  background: rgba(255, 155, 84, 0.2);
+  border: 1px solid rgba(255, 155, 84, 0.6);
   border-radius: 8px;
   padding: 0.6rem 1rem;
   margin-top: 0.8rem;
-  color: var(--color-orange);
+  color: #ffecd1;
   font-size: 0.96rem;
 }
 
@@ -113,7 +115,7 @@
   left:0;
   right:0;
   bottom:0;
-  background-color: rgba(255, 236, 209, 0.25);
+  background-color: rgba(148, 210, 189, 0.3);
   border-radius: 24px;
   transition: 0.3s;
 }
@@ -125,7 +127,7 @@
   width: 19px;
   left: 3px;
   bottom: 2.5px;
-  background-color: white;
+  background-color: #ffffff;
   border-radius: 50%;
   transition: 0.3s;
 }
@@ -135,26 +137,31 @@ input:checked + .slider:before{
 }
 
 input:checked +.slider{
-  background-color: var(--color-orange);
+  background-color: #ff9b54;
 }
 
 .setting-item{
   font-size: 1.04rem;
-  font-weight:  500;
-  color: var(--color-cream);
+  font-weight: 500;
+  color: #ffffff;
+  gap: 16px;
+}
+
+.setting-item span {
+  flex: 1;
 }
 
 .settings-section {
-  background: rgba(255, 236, 209, 0.1);
-  border: 1px solid rgba(255, 236, 209, 0.35);
+  background: rgba(0, 21, 36, 0.5);
+  border: 1px solid rgba(148, 210, 189, 0.3);
   border-radius: 14px;
   padding: 1.25rem 1.5rem;
-  color: var(--color-cream);
+  color: #ffffff;
   box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.25);
 }
 
 .settings-section h5 {
-  color: rgba(255, 236, 209, 0.95);
+  color: #ffffff;
 }
 
 .profile-card .btn-secondary,
@@ -162,41 +169,43 @@ input:checked +.slider{
 .profile-card .btn-success,
 .profile-card .btn-danger {
   border: none;
-  color: var(--color-cream);
+  color: #ffffff;
   font-weight: 600;
 }
 
 .profile-card .btn-secondary {
-  background-color: var(--color-teal);
+  background-color: #0a9396;
 }
 
 .profile-card .btn-outline-success,
 .profile-card .btn-success {
-  background-color: var(--color-orange);
+  background-color: #ff9b54;
+  color: #001524;
 }
 
 .profile-card .btn-danger {
-  background-color: var(--color-rust);
+  background-color: #d62828;
 }
 
 .profile-card button:hover {
-  filter: brightness(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .profile-card .text-muted {
-  color: rgba(255, 236, 209, 0.9) !important;
+  color: #94d2bd !important;
 }
 
 .profile-heading {
-  color: var(--color-cream);
+  color: #ffffff;
 }
 
 .profile-subheading {
-  color: var(--color-orange);
+  color: #ff9b54;
 }
 
 .profile-icon {
-  color: var(--color-orange);
+  color: #ff9b54;
 }
 
 

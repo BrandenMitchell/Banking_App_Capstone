@@ -167,7 +167,10 @@ export default function Forgot() {
               <div
                 className="alert text-center mt-3"
                 style={{
-                  color: isSuccess ? "#2e7d32" : "#c62828",
+                  color: isSuccess ? "#2a9d8f" : "#ff6b6b",
+                  backgroundColor: isSuccess ? "rgba(42, 157, 143, 0.2)" : "rgba(255, 107, 107, 0.2)",
+                  border: `1px solid ${isSuccess ? "rgba(42, 157, 143, 0.5)" : "rgba(255, 107, 107, 0.5)"}`,
+                  fontWeight: "500"
                 }}
               >
                 {message}

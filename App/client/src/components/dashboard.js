@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import ExpenseChart, { spendingData } from "../components/ExpenseChart";
 import { AuthContext } from "../context/authContext";
-import { PieChart, Pie, Cell, Legend } from "recharts";
 
 import {
   ResponsiveContainer,
@@ -67,16 +67,6 @@ const Dashboard = () => {
       
     ],
   };
-
-  const spendingData = [
-  { name: "Grocery", value: 320 },
-  { name: "Food", value: 180 },
-  { name: "Utilities", value: 240 },
-  { name: "Shopping", value: 400 },
-  { name: "Entertainment", value: 150 },
-  { name: "Health", value: 190 },
-  { name: "Other", value: 95 },
-];
 
   const chartData = transactions[selectedAccount]?.map((tx) => ({
     date: tx.date,
@@ -261,35 +251,7 @@ if (loading) {
 {/* Spending Budget Section */}
 <section className="spending-section">
   <h3 className="section-title">Spending Budget</h3>
-
-  <div style={{ width: "100%", height: 400 }}>
-    <ResponsiveContainer>
-      <PieChart>
-        <Pie
-          data={spendingData}
-          dataKey="value"
-          nameKey="name"
-          cx="50%"
-          cy="50%"
-          outerRadius={110}
-          label
-        >
-          {spendingData.map((entry, index) => (
-            <Cell
-              key={`cell-${index}`}
-              fill={["#81f57fff", "#fe9449ff", "#4089b6ff", "#cfbb4eff", "#DAD7CD", "#d96161ff", "#707070ff"][index % 7]}
-            />
-          ))}
-        </Pie>
-
-        <Legend
-          verticalAlign="bottom"
-          height={35}
-          wrapperStyle={{ color: "#dad7cd" }}
-        />
-      </PieChart>
-    </ResponsiveContainer>
-  </div>
+  <ExpenseChart data={spendingData} />
 </section>
 
 

@@ -1,9 +1,24 @@
 :root {
+  /* Main color palette - Dark theme with high contrast */
   --color-navy: #001524;
-  --color-teal: #15616d;
+  --color-dark-blue: #023047;
+  --color-teal: #0a9396;
+  --color-light-teal: #94d2bd;
   --color-cream: #ffecd1;
-  --color-orange: #ff7d00;
-  --color-rust: #78290f;
+  --color-white: #ffffff;
+  --color-orange: #ff9b54;
+  --color-rust: #d62828;
+  --color-dark-gray: #2b2d42;
+  
+  /* Semantic colors */
+  --bg-primary: #001524;
+  --bg-secondary: #023047;
+  --bg-card: #0a4a5a;
+  --text-primary: #ffffff;
+  --text-secondary: #ffecd1;
+  --text-muted: #94d2bd;
+  --accent-primary: #ff9b54;
+  --accent-secondary: #0a9396;
 }
 
 html, body, #root {
