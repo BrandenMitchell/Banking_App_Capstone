@@ -91,7 +91,7 @@ if (loading) {
       alignItems: "center",
       justifyContent: "center",
       height: "100vh",
-      backgroundColor: "#344e41",
+      backgroundColor: "#558faeff",
       color: "#dad7cd",
       fontFamily: "Inter, sans-serif",
       fontSize: "18px",
