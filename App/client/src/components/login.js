@@ -2,32 +2,29 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { AuthContext } from "../context/authContext";
 import "../css/login.css";
 import backgroundImage from "../assets/images/background.jpg";
+import { AuthContext } from "../context/authContext";
 
 
 const Login = () => {
   const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
-
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const navigate = useNavigate();
+
   const togglePassword = () => setShowPassword(!showPassword);
 
-  const validatePassword = (pwd) =>
-    /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$/.test(pwd);
+  const validatePassword = (pwd) => {
+    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$/;
+    return regex.test(pwd);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!identifier) {
-      setError("Please enter your username or email.");
-      return;
-    }
 
     if (!validatePassword(password)) {
       setError(
@@ -39,11 +36,11 @@ const Login = () => {
     setError("");
     try {
       await login({ identifier, password });
-      alert("Logged in successfully!");
+      
       navigate("/dashboard");
     } catch (err) {
-      console.error(err);
-      setError(err.message || "Login failed");
+      console.error("Login error:", err);
+      setError("Login failed");
     }
   };
 
@@ -121,7 +118,7 @@ const Login = () => {
             </button>
           </form>
           <div className="text-center mt-3 small-text">
-            <a href="/forgot-password" className="d-block mb-2">
+            <a href="/forgot" className="d-block mb-2">
               Forgot Password?
             </a>
             <span>
@@ -138,3 +135,4 @@ const Login = () => {
 };
 
 export default Login;
+

@@ -1,15 +1,9 @@
 :root {
-  --navy: #001524;
-  --teal: #15616d;
-  --cream: #ffecd1;
-  --orange: #ff7d00;
-  --rust: #78290f;
-
-  --bg-main: var(--navy);
-  --bg-card: #0d6486;
-  --text-light: var(--cream);
-  --accent: var(--orange);
-  --hover: var(--teal);
+  --bg-main: #001219;
+  --bg-card: #22577a;
+  --text-light: #dad7cd;
+  --accent: #588157;
+  --hover: #a3b18a;
 
   --font-xs: 12px;
   --font-sm: 14px;
@@ -25,7 +19,7 @@
 html, body {
   font-size: var(--font-md);
   line-height: var(--line-height);
-  color: var(--text-light);
+  color: white;
   font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
   background-color: var(--bg-main);
   margin: 0;
@@ -48,7 +42,6 @@ html, body {
   flex-direction: column;
   overflow-y: auto;
   background-color: var(--bg-main);
-  color: var(--text-light);
 }
 
 /* Header with blue banner */
@@ -62,6 +55,7 @@ html, body {
   justify-content: center;
   height: 7%;
 }
+
 .dashboard-title {
   font-size: var(--font-xxl);
   font-weight: 700;
@@ -79,7 +73,7 @@ html, body {
 /* === ACCOUNTS SECTION === */
 .section-title {
   font-size: var(--font-lg);
-  color: var(--text-light);
+  color: #fafafa;
   margin: 10px 0 16px 0;
   font-weight: 600;
 }
@@ -91,7 +85,6 @@ html, body {
 }
 
 .account-card {
-  background-color: var(--bg-card);
   color: var(--text-light);
   padding: 14px 18px;
   border-radius: 10px;
@@ -99,15 +92,21 @@ html, body {
   min-width: 160px;
   flex: 1;
   text-align: left;
+  background-color: var(--bg-card);
   transition: transform 120ms ease, box-shadow 120ms ease, background-color 0.2s ease;
+}
+.account-card p {
+  color:  #fafafa;
+
 }
 .account-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  background-color: var(--teal);
+  background-color: #1d4a68;
+
 }
 .account-card.selected {
-  border: 2px solid var(--accent);
+  border: 2px solid var(--text-light);
 }
 
 .account-name {
@@ -147,7 +146,7 @@ html, body {
 .transactions-table td.positive { color: var(--accent); }
 .chart-section {
   margin-top: 28px;
-  background-color: var(--bg-card);
+  background-color: #22577a;
   border-radius: 12px;
   padding: 16px 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.25);
@@ -157,6 +156,7 @@ html, body {
 .chart-section .section-title {
   font-size: var(--font-md);
   margin-bottom: 6px;
+  color: #fafafa;
 }
 
 .recharts-cartesian-axis-tick text {
@@ -285,4 +285,26 @@ html, body {
   .account-balance { font-size: 18px; }
   .transactions-table th, .transactions-table td { font-size: 14px; }
   .dashboard-title { font-size: 24px; }
+}
+.add-account-plus {
+  
+  color: #fafafa;
+  padding: 14px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  min-width: 195px;
+  font-size: 20px;
+  flex: 1;
+  text-align: center;
+  transition: transform 120ms ease, box-shadow 120ms ease, background-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+}
+
+.spending-section {
+  margin-top: 50px;
+  font-size: 20px;
+  color: #fafafa;
 }

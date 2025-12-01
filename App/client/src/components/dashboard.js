@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import { AuthContext } from "../context/authContext";
+import { PieChart, Pie, Cell, Legend } from "recharts";
 
 import {
   ResponsiveContainer,
@@ -56,9 +57,26 @@ const Dashboard = () => {
     2: [
       { id: 1, date: "2025-10-27", description: "Deposit", amount: 5000 },
       { id: 2, date: "2025-10-26", description: "Withdrawal", amount: -200 },
+      { id: 2, date: "2025-10-26", description: "Withdrawal", amount: 400 }
     ],
-    3: [{ id: 1, date: "2025-10-25", description: "Payment", amount: -540 }],
+    3: [{ id: 1, date: "2025-10-25", description: "Payment", amount: -540 },
+      { id: 1, date: "2025-10-29", description: "Deposit", amount: -836 },
+      { id: 2, date: "2025-10-28", description: "Withdrawal", amount: -160 },
+      { id: 3, date: "2025-10-27", description: "Deposit", amount: 340 },
+      { id: 4, date: "2025-10-26", description: "Deposit", amount: 565 },
+      
+    ],
   };
+
+  const spendingData = [
+  { name: "Grocery", value: 320 },
+  { name: "Food", value: 180 },
+  { name: "Utilities", value: 240 },
+  { name: "Shopping", value: 400 },
+  { name: "Entertainment", value: 150 },
+  { name: "Health", value: 190 },
+  { name: "Other", value: 95 },
+];
 
   const chartData = transactions[selectedAccount]?.map((tx) => ({
     date: tx.date,
@@ -140,8 +158,8 @@ if (loading) {
       alignItems: "center",
       justifyContent: "center",
       height: "100vh",
-      backgroundColor: "#001524",
-      color: "#ffecd1",
+      backgroundColor: "#001219",
+      color: "#dad7cd",
       fontFamily: "Inter, sans-serif",
       fontSize: "18px",
       letterSpacing: "0.5px"
@@ -176,24 +194,36 @@ if (loading) {
         <section className="accounts-section">
           <h3 className="section-title">Active Accounts</h3>
           <div className="accounts-list">
-            {accounts
-              .filter((acc) => acc.type === "Active")
-              .slice(0, 3)
-              .map((acc) => (
-                <div
-                  key={acc.id}
-                  className={`account-card ${
-                    selectedAccount === acc.id ? "selected" : ""
-                  }`}
-                  onClick={() => setSelectedAccount(acc.id)}
-                >
-                  <p className="account-name">{acc.name}</p>
-                  <p className="account-balance">
-                    ${acc.balance.toLocaleString()}
-                  </p>
-                </div>
-              ))}
-          </div>
+  {accounts
+    .filter((acc) => acc.type === "Active")
+    .slice(0, 3)
+    .map((acc) => (
+      <div
+        key={acc.id}
+        className={`account-card ${
+          selectedAccount === acc.id ? "selected" : ""
+        }`}
+        onClick={() => setSelectedAccount(acc.id)}
+      >
+        <p className="account-name">{acc.name}</p>
+        <p className="account-balance">
+          ${acc.balance.toLocaleString()}
+        </p>
+      </div>
+    ))}
+
+  {/* ADD NEW ACCOUNT BUTTON */}
+  <div
+    className="account-card add-account-card"
+  >
+    <p className="add-account-plus">
+  <span>Add Account</span>
+  <span>+</span>
+</p>
+
+  </div>
+</div>
+
         </section>
 
         {/* Chart Section */}
@@ -207,15 +237,15 @@ if (loading) {
                 <YAxis stroke="#ffecd1" />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#001524",
-                    border: "1px solid #15616d",
-                    color: "#ffecd1",
+                    backgroundColor: "#001219",
+                    border: "1px solid #001219",
+                    color: "#dad7cd",
                   }}
                 />
                 <Line
                   type="monotone"
                   dataKey="balance"
-                  stroke="#ff7d00"
+                  stroke="#e5eaf3ff"
                   strokeWidth={3}
                   dot={{ fill: "#15616d", r: 5 }}
                   activeDot={{ r: 8 }}
@@ -226,6 +256,44 @@ if (loading) {
             <p>No chart data available.</p>
           )}
         </section>
+
+
+{/* Spending Budget Section */}
+<section className="spending-section">
+  <h3 className="section-title">Spending Budget</h3>
+
+  <div style={{ width: "100%", height: 400 }}>
+    <ResponsiveContainer>
+      <PieChart>
+        <Pie
+          data={spendingData}
+          dataKey="value"
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius={110}
+          label
+        >
+          {spendingData.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={["#81f57fff", "#fe9449ff", "#4089b6ff", "#cfbb4eff", "#DAD7CD", "#d96161ff", "#707070ff"][index % 7]}
+            />
+          ))}
+        </Pie>
+
+        <Legend
+          verticalAlign="bottom"
+          height={35}
+          wrapperStyle={{ color: "#dad7cd" }}
+        />
+      </PieChart>
+    </ResponsiveContainer>
+  </div>
+</section>
+
+
+
 
         {/* Transactions Section */}
         <section className="transactions-section">
@@ -294,3 +362,4 @@ if (loading) {
 };
 
 export default Dashboard;
+

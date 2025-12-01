@@ -3,15 +3,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle at top, rgba(21, 97, 109, 0.35), transparent 60%),
-              radial-gradient(circle at bottom, rgba(255, 125, 0, 0.2), transparent 55%),
-              var(--color-navy);
-  color: var(--color-cream);
+
 }
 
 .profile-card {
-  width: 600px;
-  background: linear-gradient(135deg, rgba(0, 21, 36, 0.92), rgba(21, 97, 109, 0.35));
+  width: 65%;
+  height: 60%;
+  background-color: #a9d6eb;
   padding: 3rem;
   border-radius: 18px;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);

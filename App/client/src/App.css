@@ -16,7 +16,9 @@ html, body, #root {
 }
 
 body {
-  font-family: "Inter", "Segoe UI", sans-serif;
+  background-color: #01161e;
+
+  margin:0;
 }
 
 .App {
@@ -29,15 +31,19 @@ body {
 }
 
 header, footer {
-  background-color: var(--color-teal);
-  color: var(--color-cream);
+  background-color:#01161e ;
+  color:#ecf1f5;
   padding: 1rem;
 }
 
 main {
   flex-grow: 1;
   padding: 1rem;
-  background-color: var(--color-navy);
+  background-color: #ffffff;
+  margin:0px;
+  padding: 0px;
+  background-color: #01161e;
+
 }
 
 footer p {
