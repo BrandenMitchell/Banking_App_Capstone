@@ -2,7 +2,7 @@
 .landing-page {
   min-height: 100vh;
   font-family: "Poppins", sans-serif;
-  color: #fff;
+  color: var(--color-cream);
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -15,9 +15,9 @@
   background: #1d2b3a; /* match hero overlay */
   /* padding: 1rem 2rem; */
   margin: 0;
-  width: vw;
-  border-bottom: none; /* remove any default border */
-  
+  width: 100vw;
+  border-bottom: none;
+  backdrop-filter: blur(6px);
 }
 
 
@@ -28,7 +28,9 @@
   padding: 4px 10px;
   border-radius: 5px;
   font-weight: 600;
-  transition: 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .register-btn:hover {
@@ -53,22 +55,24 @@
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 550px;
-  background: rgba(20,25,34,0.55);
-  padding: 35px 25px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  max-width: 560px;
+  background: rgba(0, 21, 36, 0.8);
+  padding: 35px 30px;
+  border-radius: 18px;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 236, 209, 0.2);
 }
 
 .hero-title {
-  font-size: 2rem;
+  font-size: 2.4rem;
   font-weight: 700;
   margin-bottom: 12px;
+  color: var(--color-cream);
 }
 
 .hero-tagline {
   font-size: 1rem;
-  color: #d4e6f1;
+  color: rgba(255, 236, 209, 0.85);
   margin-bottom: 20px;
 }
 
@@ -90,6 +94,7 @@
   background:#001219;
   padding: 60px 20px;
   text-align: center;
+  color: var(--color-cream);
 }
 
 .about-section h2 {
@@ -99,9 +104,9 @@
 }
 
 .about-section p {
-  color: #dceaf5;
+  color: rgba(255, 236, 209, 0.9);
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.6;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }

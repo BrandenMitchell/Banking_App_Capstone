@@ -5,6 +5,8 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  background: rgba(0, 21, 36, 0.7);
+  backdrop-filter: blur(2px);
 }
 
 /* Expanded width for large screens */
@@ -14,8 +16,9 @@
   padding: 2rem 2rem;
   background: #caf0f8;
   border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
   transition: background 0.3s ease, color 0.3s ease;
+  border: 1px solid rgba(255, 236, 209, 0.2);
 }
 
 .login-card h2 {
@@ -29,7 +32,7 @@
 .small-label {
   font-size: 0.9rem;
   font-weight: 500;
-  color: #2e2e2e;
+  color: rgba(255, 236, 209, 0.85);
   margin-bottom: 0.25rem;
 }
 
@@ -41,17 +44,67 @@
   font-size: 0.95rem;
   padding: 0.55rem 0.75rem;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(255, 236, 209, 0.2);
+  background-color: rgba(255, 236, 209, 0.05);
+  color: var(--color-cream);
+}
+
+.login-card:not(.register-card) .form-control {
+  background-color: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 236, 209, 0.35);
+  color: var(--color-cream);
+}
+
+.login-card:not(.register-card) .form-control:focus {
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+.form-control::placeholder {
+  color: rgba(255, 236, 209, 0.7);
 }
 
 .form-control:focus {
-  border-color: #2e7d32;
-  box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+  border-color: var(--color-orange);
+  box-shadow: 0 0 0 0.2rem rgba(255, 125, 0, 0.25);
+  background-color: rgba(255, 236, 209, 0.08);
+}
+
+.register-card {
+  background: rgba(0, 21, 36, 0.92);
+  border: 1px solid rgba(255, 236, 209, 0.25);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.7);
+}
+
+.register-card h2 {
+  color: var(--color-cream);
+}
+
+.register-card .form-control {
+  background-color: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 236, 209, 0.35);
+  color: var(--color-cream);
+}
+
+.register-card .form-control::placeholder {
+  color: rgba(255, 236, 209, 0.7);
+}
+
+.register-card .form-control:focus {
+  background-color: rgba(0, 0, 0, 0.45);
+  border-color: var(--color-orange);
+  box-shadow: 0 0 0 0.2rem rgba(255, 125, 0, 0.35);
+  color: var(--color-cream);
+}
+
+.register-card .btn-primary {
+  background-color: var(--color-orange);
+  border-color: var(--color-orange);
+  box-shadow: 0 8px 24px rgba(255, 125, 0, 0.3);
 }
 
 .small-text {
   font-size: 0.82rem;
-  color: #666;
+  color: rgba(255, 236, 209, 0.7);
 }
 
 .alert {
@@ -61,9 +114,9 @@
 }
 
 .btn-primary {
-  background-color: #023e8a;
-  border-color: #023e8a;
-  color: #ffffff;
+  background-color: var(--color-orange);
+  border-color: var(--color-orange);
+  color: var(--color-cream);
   font-size: 1rem;
   font-weight: 600;
   padding: 0.65rem;
@@ -72,9 +125,9 @@
 }
 
 .btn-primary:hover {
-  background-color: #1b234d;
-  border-color: #1b234d;
-  color: #ffffff;
+  background-color: var(--color-rust);
+  border-color: var(--color-rust);
+  color: var(--color-cream);
 }
 
 .password-input-wrapper input {

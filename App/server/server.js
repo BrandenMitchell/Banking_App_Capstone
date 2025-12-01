@@ -15,6 +15,7 @@ connectDB();
 //routes here
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 //routes end
 app.use(cors({
   origin: 'http://localhost:3000', // React app URL
@@ -26,6 +27,7 @@ app.use(express.json());
 
 app.use('/api/users',userRoutes); 
 app.use('/api/auth', authRoutes);
+app.use('/api/chat', chatRoutes);
 
 // health route shows DB connection state
 app.get("/health", (req, res) => {

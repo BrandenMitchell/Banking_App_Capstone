@@ -167,7 +167,7 @@ export default function Register() {
 
   return (
     <div className="login-container">
-      <div className={`login-card ${shake ? "animate-shake" : ""}`}>
+      <div className={`login-card register-card ${shake ? "animate-shake" : ""}`}>
         <h2>Commerce Bank Register</h2>
 
         <form onSubmit={handleSubmit} className="form-grid">
